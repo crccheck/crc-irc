@@ -1,0 +1,2 @@
+python-irclib==0.4.6
+tornado==1.2.1

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<title></title>
+</head>
+<body>
+    <form action="/ws" id="chatform" method="post">
+        <textarea id="chat" style="width: 20em; height: 6em;"></textarea>
+        <br>
+        <input type="text" id="message">
+        <input type="submit" placeholder="Enter a message" value="Send">
+    </form>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script src="{{ static_url("js/site.js") }}"></script>
+</body>
+</html>
