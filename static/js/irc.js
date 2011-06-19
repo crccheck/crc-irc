@@ -4,6 +4,16 @@ var NICK = 'kurol';
 
 var ws = new WebSocket('ws://localhost:8888/ws');
 
+
+function dispatch(e){
+  if (e.data){
+    console.log(e.data);
+    var data = JSON.parse(e.data);
+  }
+}
+
+ws.onmessage = dispatch;
+
 // translates:
 // /server host[:port] [pass]
 // into:
@@ -18,7 +28,7 @@ function server(tokens){
   return ["connect", host, port, NICK, pass].join(" ");
 }
 
-// interpret a line
+// interpret a line from the input and send to IRC
 function send(line){
   if (!line)
     return;
@@ -33,9 +43,13 @@ function send(line){
   // if (tokens[1] == COMMAND_PREFIX), process the tokens. evaluates and replace the variables
   switch (command){
     case 'server':
-      console.log(tokens);
       ws.send(server(tokens));
       break;
   }
+}
+
+// ping the server since I haven't figured out how to do async push in tornado
+function ping(){
+  ws.send('')
 }
 

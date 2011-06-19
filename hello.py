@@ -8,22 +8,48 @@ from tornado import websocket
 
 import irclib
 
-irclib.DEBUG = True
+#irclib.DEBUG = True
+
+irclib.Event.to_json = lambda event : json.dumps({
+        'type': event.eventtype(),
+        'source': event.source(),
+        'target': event.target(),
+        'arguments': event.arguments(),
+    }, ensure_ascii=False)
+
+
+class IRCCat(irclib.SimpleIRCClient):
+    def _dispatcher(self, c, e):
+        push_to_client(c, e)
+        return irclib.SimpleIRCClient._dispatcher(self, c, e)
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("templates/index.html")
 
+def push_to_client(connection, event):
+    if client is not None:
+        client.write_message(event.to_json())
+
 class EchoWebSocket(websocket.WebSocketHandler):
     def open(self):
+        global client
         print "WebSocket opened"
-        self.irc = irclib.IRC()
-        self.server = self.irc.server()
+        #self.irc = irclib.IRC()
+        self.irc = IRCCat()
+        #self.server.add_global_handler("all_events", push_to_client)
+        #self.server.add_global_handler("welcome", push_to_client)
+        #self.server.add_global_handler("join", push_to_client)
+        #self.server.add_global_handler("privmsg", push_to_client)
+        client = self
+        self.irc.ircobj.process_once()
 
     def on_message(self, message):
-        self.write_message(message)
+        self.irc.ircobj.process_once()
+        if not message:
+            return
         one = message.split(None, 2)
-        method = getattr(self.server, one[0], None)
+        method = getattr(self.irc.connection, one[0], None)
         if inspect.ismethod(method):
             argsspec = inspect.getargspec(method)
             print argsspec
@@ -36,7 +62,7 @@ class EchoWebSocket(websocket.WebSocketHandler):
                 print args
                 method(*args)
             except TypeError as e:
-                self.write_message(str(e))
+                self.write_message(json.dumps({'error': str(e)}))
 
     def on_close(self):
         print "WebSocket closed"
@@ -51,6 +77,9 @@ application = tornado.web.Application([
     (r"/", MainHandler),
     (r"/ws", EchoWebSocket),
 ], **settings)
+
+# really? this is how we're going to store state? ok
+client = None
 
 if __name__ == "__main__":
     application.listen(8888)
