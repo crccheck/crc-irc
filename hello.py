@@ -23,17 +23,18 @@ class EchoWebSocket(websocket.WebSocketHandler):
     def on_message(self, message):
         self.write_message(message)
         one = message.split(None, 2)
-        #if callable(getattr(self.irc, one[0], None)):
         method = getattr(self.server, one[0], None)
         if inspect.ismethod(method):
             argsspec = inspect.getargspec(method)
             print argsspec
             args = message.split(None, len(argsspec.args) - 1)
+            command = args[0]
+            args = args[1:]
             try:
-                if args[0] == "connect":
-                    args[2] = int(args[2])
+                if command == "connect":
+                    args[1] = int(args[1])
                 print args
-                method(*args[1:])
+                method(*args)
             except TypeError as e:
                 self.write_message(str(e))
 
@@ -42,6 +43,7 @@ class EchoWebSocket(websocket.WebSocketHandler):
         #close self.irc if open
 
 settings = {
+    "debug": True,
     "static_path": os.path.join(os.path.dirname(__file__), "static"),
 }
 
