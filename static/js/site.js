@@ -5,6 +5,6 @@ $(document).ready(function() {
      return false;
   });
   // poll the server since I haven't figured out how to do push yet
-  setInterval(ping, 2000);
+  setInterval(ping, 1000);
 });
 

@@ -4,15 +4,60 @@ var NICK = 'kurol';
 
 var ws = new WebSocket('ws://localhost:8888/ws');
 
-
-function dispatch(e){
-  if (e.data){
-    console.log(e.data);
+function _onmessage(e){
+  if (e.data) {
     var data = JSON.parse(e.data);
+    if (data.type) {
+      // if data is an IRC Event
+      dispatch(data);
+    }
   }
 }
 
-ws.onmessage = dispatch;
+var channels = [];
+var windows = {};
+
+function dispatch(data){
+  var dispatcher = {
+    "currenttopic": function(){
+      var chanName = this.arguments[0];
+      var topic = this.arguments[1];
+      ENV.getChannelByName(chanName).setTopic(topic);
+    },
+    "join": function(){
+      var chan = ENV.getChannelByName(this.target);
+      if (!chan) {
+        chan = new Channel(this.target)
+        ENV.addChannel(chan);
+      }
+      // add user to IAL and channel user list
+    },
+    "ping": function(){
+      var target = this.target;
+      var message = this.arguments[0];
+      // ignore
+    },
+    "pubmsg": function(){
+      var sender = new User(this.source);
+      var chan = this.target;
+      var message = this.arguments[0];
+      ENV.getChannelByName(chan).pubmsg({sender: sender, message: message});
+    },
+    "quit": function(){
+      var sender = new User(this.source);
+      var message = this.arguments[0];
+      //ENV.quit(sender, message);
+    }
+  };
+  var fun;
+  if (fun = dispatcher[data.type]) {
+    fun.call(data);
+  } else {
+    console.log(data.type, data.source, data.target, data.arguments);
+  }
+}
+
+ws.onmessage = _onmessage;
 
 // translates:
 // /server host[:port] [pass]

@@ -20,7 +20,8 @@ irclib.Event.to_json = lambda event : json.dumps({
 
 class IRCCat(irclib.SimpleIRCClient):
     def _dispatcher(self, c, e):
-        push_to_client(c, e)
+        if e.eventtype() != 'all_raw_messages':
+            push_to_client(c, e)
         return irclib.SimpleIRCClient._dispatcher(self, c, e)
 
 class MainHandler(tornado.web.RequestHandler):

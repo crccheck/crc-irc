@@ -1,0 +1,46 @@
+body {
+    font-size: 12px;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.channel {
+    margin: 1em auto;
+    width: 800px;
+}
+
+.channel > header {
+}
+
+.channel-name {
+    display: inline;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.topic {
+    display: inline;
+    margin-left: 1em;
+}
+
+.content {
+    background: #eee;
+    border: 1px solid #ccc;
+    max-height: 10em;
+    overflow-y: auto;
+}
+
+.nick {
+    font-weight: bold;
+}
+
+.nick:before {
+    content: "<";
+}
+
+.nick:after {
+    content: ">";
+}
+
+.message {
+    margin-left: 0.5em;
+}
