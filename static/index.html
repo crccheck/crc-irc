@@ -4,21 +4,22 @@
 <meta charset=utf-8>
 <title>IRC</title>
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssreset/reset-min.css">
-<link rel="stylesheet" href="{{ static_url("css/site.css")}}" type="text/css" media="screen">
+<link rel="stylesheet" href="/css/site.css" type="text/css" media="screen">
 </head>
 <body>
     <form action="/ws" id="chatform" method="post">
-        <textarea id="chat" style="width: 40em; height: 6em;"></textarea>
+        <textarea id="chat" style="width: 50em; height: 8em;"></textarea>
         <br>
         <input type="text" id="message">
         <input type="submit" placeholder="Enter a message" value="Send">
     </form>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-    <script src="{{ static_url("js/chan.js") }}"></script>
-    <script src="{{ static_url("js/user.js") }}"></script>
-    <script src="{{ static_url("js/env.js") }}"></script>
-    <script src="{{ static_url("js/irc.js") }}"></script>
-    <script src="{{ static_url("js/site.js") }}"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/chan.js"></script>
+    <script src="/js/user.js"></script>
+    <script src="/js/env.js"></script>
+    <script src="/js/irc.js"></script>
+    <script src="/js/site.js"></script>
 </body>
 </html>
