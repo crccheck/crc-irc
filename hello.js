@@ -27,7 +27,8 @@ var irc = {
     irc.socket.connect(options.port, options.host);
     irc.socket.on('connect', function(){
       irc.raw('NICK ' + options.nick);
-      irc.raw('USER ' + options.nick + " 0 * :test client");
+      // TODO figure out this syntax
+      irc.raw('USER ' + options.nick + " 0 * :" + options.name);
       if (options.pass) {
         irc.raw('PASS ' + options.pass);
       }

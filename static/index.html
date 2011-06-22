@@ -7,15 +7,28 @@
     <link rel="stylesheet" href="/css/site.css" type="text/css" media="screen">
 </head>
 <body>
-    <div class="channel">
+    <div id="connect" class="shadow">
+        <form method="post" action="" target="devnull" name="connect-form">
+            <label for="connect-nick">nick</label><input id="connect-nick" name="nick" required placeholder="nick" type="text">
+            <label for="connect-host">host</label><input id="connect-host" name="host" required placeholder="irc.example.com" type="text">
+            <label for="connect-port">port</label><input id="connect-port" name="port" placeholder="6667" type="text">
+            <label for="connect-pass">pass</label><input id="connect-pass" name="pass" placeholder="nick:password" type="text">
+            <label for="connect-name">name</label><input id="connect-name" name="name" required placeholder="Full Name" type="text">
+            <input type="submit" value="connect">
+        </form>
+    </div>
+
+    <section id="status" class="channel shadow">
         <header>
             <h1 class="channel-name">Status</h1>
         </header>
-        <textarea id="status" class="content" style="display: block; height: 8em;"></textarea>
+        <textarea id="status-content" class="content" style="display: block; height: 8em;"></textarea>
         <footer>
-            <input type="text" placeholder="Enter a message" id="message"><input type="submit" value="Send">
+            <form><input type="text" name="message" placeholder="Enter a message"><input type="submit" value="Send"></form>
         </footer>
-    </div>
+    </section>
+
+    <iframe class="hidden" name="devnull"></iframe>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>

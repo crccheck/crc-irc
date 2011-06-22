@@ -4,12 +4,14 @@
 // what nicks you know, etc.
 
 var ENV = {
+  // information about the server
   'chantypes': '#',  // TODO read from raw 005
   'chanmodes': 'eIbq,k,flj,CFLMPQcgimnprstz', // TODO read from raw 005
   'chanlimit': 120, // TODO read from raw 005
   'prefix': '(ov)@+',  // TODO read from raw 005
   'network': 'unknown network', // TODO
   'server': '', // TODO
+  // information about your channels
   'channels': {},
   'addChannel': function(chan){
     this.channels[chan.name] = chan;
@@ -27,8 +29,16 @@ var ENV = {
       return false;
     }
   },
+  // information about users
   'users': {},
   'addUser': function(user){
     this.users[user.address] = user;
+  },
+  // other stuff
+
+  // send message to node.js to connect to a server
+  // options = {action: "connect", host: String, port: Int, nick: String, pass: String}
+  'connect': function(options){
+    socket.send(options);
   }
 };

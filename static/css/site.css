@@ -3,6 +3,40 @@ body {
     font-family: Helvetica, Arial, sans-serif;
 }
 
+.hidden { display: none; visibility: hidden; }
+
+.shadow {
+     -moz-box-shadow: 0 0.1em 1em #333;
+  -webkit-box-shadow: 0 0.1em 1em #333;
+          box-shadow: 0 0.1em 1em #333;
+}
+
+/* #connect form */
+#connect {
+    background: #EFE;
+    border-bottom: medium solid #8C8;
+    padding: 0.4em 0;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#connect label:after {
+    content: ":";
+    margin-right: 0.25em;
+}
+#connect input[type=text] {
+    border: 0;
+}
+#connect input[required] {
+    border-bottom: thin solid blue;
+}
+#connect-nick {
+    width: 10em;
+}
+#connect-port {
+    width: 4em;
+}
+
 .channel {
     margin: 1em auto;
     width: 800px;

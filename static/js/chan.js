@@ -10,10 +10,10 @@ function Channel(name){
   if (document.getElementById(this.name)){
     return;
   }
-  this.$elem = $('<section id="' + this.name  +'" class="channel">' +
+  this.$elem = $('<section id="' + this.name  +'" class="channel shadow">' +
     '<header><h1 class="channel-name">'+name+'</h1><h2 class="topic"></h2></header>' +
     '<aside></aside><ol class="content"></ol>' +
-    '<footer><input type="text"></footer>').appendTo(document.body);
+    '<footer><form><input type="text" name="message" placeholder="Enter a message"><input type="submit" value="Send"></form></footer>').appendTo(document.body);
   this.$topic = this.$elem.find('h2');
   this.$content = this.$elem.find('ol');
   this.$input = this.$elem.find('input').change(function(){

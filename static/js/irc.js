@@ -1,6 +1,5 @@
 // CONFIGURATION
 var COMMAND_PREFIX = '/';
-var NICK = 'kurol';   // this is how you can find me on irc. I should probably remove this.
 
 function dispatch(data){
   var dispatcher = {
@@ -77,8 +76,21 @@ function server(tokens){
   var host = host_port[0];
   var port = host_port[1] || "6667";
   var pass = tokens[1] || '';
-  return {action:"connect", host:host, port:port, nick:NICK, pass:pass};
+  return {action:"connect", host:host, port:port, nick:$('#connect-nick').val(), pass:pass};
 }
+$('#connect').submit(function(){
+  var options = {
+    action: "connect",
+    host: $('#connect-host').val(),
+    port: +($('#connect-port').val() || 6667),
+    nick: $('#connect-nick').val(),
+    pass: $('#connect-pass').val(),
+    name: $('#connect-name').val(),
+  };
+  // TODO validate
+  ENV.connect(options);
+  //return false;
+});
 
 // interpret a line from the input and send to IRC
 function send(line){
@@ -100,3 +112,10 @@ function send(line){
   }
 }
 
+$('#status form').submit(function(){
+  var input = $(this).find('input:first');
+  var message = input.val();
+  input.val('');
+  send(message);
+  return false;
+});

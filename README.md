@@ -36,7 +36,8 @@ Run the server (you may need to sudo)
 
     node hello.js
 
-I haven't written the GUI for connecting yet.
+To connect to a server, fill out the form up top and hit `connect`.
+Or you can just fill in the nick and use mIRC-style command in the status: `/server host:port [pass]`
 
 Limitations
 -----------
@@ -47,7 +48,9 @@ Limitations
 Needs
 -----
 
+* Documenting: I've ready a few paradigms for documenting code, JavaScript in particular, but it's not ingrained in me. I want to find a convention that's easy to read and if it can be used to auto-generate docs that's a plus.
 * Packaging: I don't know how to package this thing. I haven't even gotten around to looking around at other projects.
 * Testing: JavaScript testing is still evolving. I've seen [Jasmine](http://pivotal.github.com/jasmine/) and [QUnit](http://docs.jquery.com/Qunit). What else is out there?
+* Building: Some build process would be nice. Concatenating all the .js modules.
 * Licensing: Apache? MIT? GPL?
 

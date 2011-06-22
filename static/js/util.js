@@ -18,6 +18,6 @@ String.prototype.psplit = function(sep, limit){
 
 // temporary console.log-like function
 function dump(){
-   document.getElementById('status').innerHTML += this.line + "\n";
+   document.getElementById('status-content').innerHTML += this.line + "\n";
 }
 
