@@ -40,12 +40,12 @@ function dispatch(data){
   }
 }
 
-function _onmessage(data){
-  if (typeof data == "string"){
-    data = data.split("\r\n");
-    data.forEach(function(line){
+// separate each chunk into individual messages and send them to be dispatched
+function parse_chunk(lines){
+  if (typeof lines == "string"){
+    lines.split("\r\n").forEach(function(line){
       if (line.length && line[0] == ":"){
-          var tokens = line.substr(1).psplit(":", 2);
+          var tokens = line.substr(1).psplit(" :", 2);
           var token_data = tokens[0].psplit(" ", 3);
           var sender = token_data[0];
           var type = token_data[1];
@@ -53,7 +53,7 @@ function _onmessage(data){
           dispatch({line: line,
                     source: sender,
                     type: type,
-                    target: $.trim(target),
+                    target: target,
                     args: tokens[1]});
       }
     });
@@ -64,7 +64,7 @@ var socket = new io.Socket("");
 socket.connect();
 socket.on('connect', function(){ });
 socket.on('disconnect', function(){ });
-socket.on('message', _onmessage);
+socket.on('message', parse_chunk);
 
 
 // translates mIRC style command to start a connection
