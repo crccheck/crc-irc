@@ -20,65 +20,55 @@ body {
     white-space: nowrap;
 }
 
-#connect label:after {
-    content: ":";
-    margin-right: 0.25em;
-}
-#connect input[type=text] {
-    border: 0;
-}
-#connect input[required] {
-    border-bottom: thin solid blue;
-}
-#connect-nick {
-    width: 10em;
-}
-#connect-port {
-    width: 4em;
-}
+    #connect label:after {
+        content: ":";
+        margin-right: 0.25em;
+    }
+    #connect input[type=text] {
+        border: 0;
+    }
+    #connect input[required] {
+        border-bottom: thin solid blue;
+    }
+    #connect-nick {
+        width: 10em;
+    }
+    #connect-port {
+        width: 4em;
+    }
 
 .channel {
     margin: 1em auto;
     width: 800px;
 }
+    .channel-name {
+        display: inline;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
 
-.channel > header {
-}
+    .topic {
+        display: inline;
+        margin-left: 1em;
+    }
 
-.channel > footer {
-    text-align: right;
-}
-.channel input[type=text] {
-    float: left;
-    width: 763px;
-}
-.channel input[type=submit] {
-    width: 33px;
-}
+    .content {
+        background: #eee;
+        border: 1px solid #ccc;
+        max-height: 10em;
+        overflow-y: auto;
+    }
+    .channel input[type=text] { width: 763px; }
+    .channel input[type=submit] { width: 33px; }
 
-.channel-name {
-    display: inline;
-    font-size: 1.2em;
-    font-weight: bold;
-}
-
-.topic {
-    display: inline;
-    margin-left: 1em;
-}
-
-.content {
-    background: #eee;
-    border: 1px solid #ccc;
-    max-height: 10em;
-    overflow-y: auto;
-}
-
-textarea.content {
-    width: 798px;
-}
+    #status textarea {
+        width: 798px;
+    }
+    #status > footer { text-align: right; }
+        #status input[type=text] { float: left; }
 
 
+/* GENERAL STYLES FOR IRC EVENTS, TYPES */
 .nick { font-weight: bold; }
 .nick:before { content: "<"; }
 .nick:after { content: ">"; }

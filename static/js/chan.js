@@ -13,11 +13,13 @@ function Channel(name){
   this.$elem = $('<section id="' + this.name  +'" class="channel shadow">' +
     '<header><h1 class="channel-name">'+name+'</h1><h2 class="topic"></h2></header>' +
     '<aside></aside><ol class="content"></ol>' +
-    '<footer><form><input type="text" name="message" placeholder="Enter a message"><input type="submit" value="Send"></form></footer>').appendTo(document.body);
+    '<footer><input type="text" placeholder="Enter a message"></footer>').appendTo(document.body);
   this.$topic = this.$elem.find('h2');
   this.$content = this.$elem.find('ol');
-  this.$input = this.$elem.find('input').change(function(){
+  this.$input = this.$elem.find('input:first').change(function(){
+    self.pubmsg({sender: 'me', message: this.value});
     socket.send({action:'raw', message:"PRIVMSG " + self.channel + " " + this.value});
+    this.value = '';
   });
 
   ENV.addChannel(this);
