@@ -1,9 +1,16 @@
-// DEPENDENCIES:
+// Environment module
 //
+// Keep track of the IRC environment. Who you are, what channels you're in,
+// what nicks you know, etc.
 
 var ENV = {
+  'chantypes': '#',  // TODO read from raw 005
+  'chanmodes': 'eIbq,k,flj,CFLMPQcgimnprstz', // TODO read from raw 005
+  'chanlimit': 120, // TODO read from raw 005
+  'prefix': '(ov)@+',  // TODO read from raw 005
+  'network': 'unknown network', // TODO
+  'server': '', // TODO
   'channels': {},
-  'users': {},
   'addChannel': function(chan){
     this.channels[chan.name] = chan;
   },
@@ -16,8 +23,12 @@ var ENV = {
     if (chan){
       return chan;
     } else {
+      //console.error("missing channel name", name, this.channels);
       return false;
-      console.error("missing channel name", name, this.channels);
     }
+  },
+  'users': {},
+  'addUser': function(user){
+    this.users[user.address] = user;
   }
 };

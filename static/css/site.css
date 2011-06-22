@@ -11,6 +11,17 @@ body {
 .channel > header {
 }
 
+.channel > footer {
+    text-align: right;
+}
+.channel input[type=text] {
+    float: left;
+    width: 763px;
+}
+.channel input[type=submit] {
+    width: 33px;
+}
+
 .channel-name {
     display: inline;
     font-size: 1.2em;
@@ -29,18 +40,14 @@ body {
     overflow-y: auto;
 }
 
-.nick {
-    font-weight: bold;
+textarea.content {
+    width: 798px;
 }
 
-.nick:before {
-    content: "<";
-}
 
-.nick:after {
-    content: ">";
-}
+.nick { font-weight: bold; }
+.nick:before { content: "<"; }
+.nick:after { content: ">"; }
 
-.message {
-    margin-left: 0.5em;
-}
+.message { margin-left: 0.5em; }
+

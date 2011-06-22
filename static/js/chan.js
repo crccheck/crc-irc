@@ -1,29 +1,37 @@
+// Channel module
+
 function Channel(name){
   if (!name) {
     return;
   }
+  var self = this;
   this.channel = name;
   this.name = this.cleanName(name);
   if (document.getElementById(this.name)){
     return;
   }
-  this.$elem = $('<section id="' + this.name  +'" class="channel">'
-    + '<header><h1 class="channel-name">'+name+'</h1><h2 class="topic"></h2></header>'
-    + '<aside></aside><ol class="content"></ol>'
-    + '<footer></footer>').appendTo(document.body);
+  this.$elem = $('<section id="' + this.name  +'" class="channel">' +
+    '<header><h1 class="channel-name">'+name+'</h1><h2 class="topic"></h2></header>' +
+    '<aside></aside><ol class="content"></ol>' +
+    '<footer><input type="text"></footer>').appendTo(document.body);
   this.$topic = this.$elem.find('h2');
   this.$content = this.$elem.find('ol');
+  this.$input = this.$elem.find('input').change(function(){
+    socket.send({action:'raw', message:"PRIVMSG " + self.channel + " " + this.value});
+  });
+
+  ENV.addChannel(this);
 }
 
-Channel.prototype.cleanName = function(s){
-  // strip channel prefix and force lower case
-  return s.substr(1).toLowerCase();
-};
+// ------------------------ API -----------------------
 
+// pubmsg(data)
+// data -> {sender: User,
+//          message: String}
 Channel.prototype.pubmsg = function(data){
-  var line = $('<li class="pubmsg"/>').html('<time></time>'
-    + '<span class="nick">' + data.sender + '</span>'
-    + '<span class="message"></span>');
+  var line = $('<li class="pubmsg"/>').html('<time></time>' +
+    '<span class="nick">' + data.sender + '</span>' +
+    '<span class="message"></span>');
   line.children('.message').text(data.message);
   line.appendTo(this.$content);
   if (this.$content && this.$content.length) {
@@ -31,25 +39,38 @@ Channel.prototype.pubmsg = function(data){
   } else {
     console.log("missing $content", this);
   }
-  //self.$content.append(line);
 };
 
+// setTopic(String)
 Channel.prototype.setTopic = function(s){
   this.topic = s;
   this.$topic.text(s);
 };
 
-Channel.prototype.trigger = function(eventName, args){
-  if (this.$elem){
-    this.$elem.trigger(eventName, args);
-  }
+
+// -------------------- HELPERS --------------------
+
+// cleanName(String)
+// @return a standardized version of the channel name
+Channel.prototype.cleanName = function(s){
+  // strip channel prefix and force lower case
+  return s.substr(1).toLowerCase();
 };
 
+// isChannel(String)
+// @return a boolean if a string is channel. If it isn't we assume it's a nick.
+Channel.isChannel = function(s){
+  // return boolean if the string is a channel
+  // TODO check ENV.chanmodes
+  return s[0] == '#';
+};
+
+// @return the string representation of the channel
 Channel.prototype.toString = function(){
   return this.channel;
 };
 
-Channel.isChannel = function(s){
-  // return boolean if the string is a channel
-  return s[0] == '#';
+// @return a serializable version of the channel
+Channel.prototype.toObject = function(){
+
 };
