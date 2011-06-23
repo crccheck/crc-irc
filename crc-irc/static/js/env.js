@@ -40,6 +40,11 @@ var ENV = {
   // options = {action: "connect", host: String, port: Int, nick: String, pass: String}
   'connect': function(options){
     socket.send(options);
-  }
+  },
+  // set self to default state
+  'reset': function(options){
+    this.channels = {};
+    this.users = {};
+  },
 };
 

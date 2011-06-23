@@ -11,21 +11,25 @@ function dispatch(data){
   }
 }
 
+function parse_line(line){
+  var tokens = line.substr(1).psplit(" :", 2);
+  var token_data = tokens[0].psplit(" ", 3);
+  var sender = token_data[0];
+  var type = token_data[1];
+  var target = token_data[2];
+  return {line: line,
+          source: sender,
+          type: type,
+          target: target,
+          args: tokens[1]}
+}
+
 // separate each chunk into individual messages and send them to be dispatched
 function parse_chunk(lines){
   if (typeof lines == "string"){
     lines.split("\r\n").forEach(function(line){
       if (line.length && line[0] == ":"){
-          var tokens = line.substr(1).psplit(" :", 2);
-          var token_data = tokens[0].psplit(" ", 3);
-          var sender = token_data[0];
-          var type = token_data[1];
-          var target = token_data[2];
-          dispatch({line: line,
-                    source: sender,
-                    type: type,
-                    target: target,
-                    args: tokens[1]});
+        dispatch(parse_line(line));
       }
     });
   }
