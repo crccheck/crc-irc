@@ -2,36 +2,7 @@
 var COMMAND_PREFIX = '/';
 
 function dispatch(data){
-  var dispatcher = {
-    "JOIN": function(){
-      var chan = ENV.getChannelByName(this.args);
-      if (!chan) {
-        chan = new Channel(this.args);
-      }
-      // add user to IAL and channel user list
-    },
-    "PRIVMSG": function(){
-      var sender = new User(this.source);
-      var chan = $.trim(this.target);
-      var message = this.args;
-      var _chan = ENV.getChannelByName(chan);
-      if (_chan){
-        _chan.pubmsg({sender: sender, message: message});
-      }
-    },
-    "QUIT": function(){
-      var sender = new User(this.source);
-      var message = this.args;
-      //ENV.quit(sender, message);
-    },
-    "332": function(){
-      var chanName = this.target.split(' ')[1];
-      var topic = this.args;
-      ENV.getChannelByName(chanName).setTopic(topic);
-    },
-    "372": dump,
-    "462": dump
-  };
+  var dispatcher = RFC1459;
   var fun = dispatcher[data.type];
   if (fun) {
     fun.call(data);
