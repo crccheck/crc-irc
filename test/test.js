@@ -42,13 +42,24 @@ test("no message", function(){
                                "target": "#mychannel",
                                "args": undefined});
 });
+
+
 module("rfc1459");
+var channel_name = "#foobar";
+var address = "funky!~bunch@marky.mk";
+var message = "hello world";
 test("join", function(){
   ENV.reset();
-  var channel_name = "#foobar";
-  var address = "funky!~bunch@marky.mk"
   var line = ":" + address + " JOIN :" + channel_name;
   parse_chunk(line);
-  equal(ENV.channels[Channel.cleanName(channel_name)].channel, channel_name);
+  equal(ENV.channels[Channel.cleanName(channel_name)].channel, channel_name, line);
   //TODO test that nick is in channel
+});
+test("privmsg", function(){
+  var chan = new Channel(channel_name);
+  var user = new User(address);
+  var line = ":" + address + " PRIVMSG " + channel_name + " :" + message;
+  parse_chunk(line);
+  equal(ENV.channels[Channel.cleanName(channel_name)].$elem.find('span.message').text(), message, line);
+  equal(ENV.channels[Channel.cleanName(channel_name)].$elem.find('span.nick').text(), user.nick, line);
 });
