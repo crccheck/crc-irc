@@ -43,6 +43,17 @@ Channel.prototype.pubmsg = function(data){
   }
 };
 
+// retrieve the i-th message in reverse chronological order, 0-indexed
+Channel.prototype.get_message = function(i){
+  var collection = this.$elem.children('ol').children();
+  var n = collection.length;
+  if (i <= n){
+    var line = collection.eq(n - i - 1);
+    return {"nick": line.find('.nick').text(),
+            "message": line.find('.message').text()};
+  }
+}
+
 // setTopic(String)
 Channel.prototype.setTopic = function(s){
   this.topic = s;

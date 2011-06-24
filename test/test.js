@@ -60,8 +60,7 @@ test("privmsg", function(){
   var user = new User(address);
   var line = ":" + address + " PRIVMSG " + channel_name + " :" + message;
   parse_chunk(line);
-  equal(ENV.getChannelByName(channel_name).$elem.find('span.message').text(), message, line);
-  equal(ENV.getChannelByName(channel_name).$elem.find('span.nick').text(), user.nick, line);
+  deepEqual(ENV.getChannelByName(channel_name).get_message(0), {nick: user.nick, message: message}, line);
 });
 test("332, get topic", function(){
   var topic = "Hot Topic";
