@@ -10,12 +10,18 @@ var RFC1459 = {
   },
   "PRIVMSG": function(){
     var sender = new User(this.source);
-    var chan = $.trim(this.target);
+    var chan = this.target;
     var message = this.args;
     var _chan = ENV.getChannelByName(chan);
     if (_chan){
       _chan.pubmsg({sender: sender, message: message});
     }
+  },
+  "TOPIC": function(){
+    var sender = new User(this.source);
+    var chanName = this.target;
+    var topic = this.args;
+    ENV.getChannelByName(chanName).setTopic(topic);
   },
   "QUIT": function(){
     var sender = new User(this.source);

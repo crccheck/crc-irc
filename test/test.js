@@ -69,3 +69,10 @@ test("332, get topic", function(){
   parse_chunk(line);
   equal(ENV.getChannelByName(channel_name).topic, topic, line);
 });
+test("TOPIC, set topic", function(){
+  var chan = new Channel(channel_name);
+  var topic = "Is your cat dressing too sexy?";
+  var line = ":" + address + " TOPIC " + channel_name + " :" + topic;
+  parse_chunk(line);
+  equal(ENV.getChannelByName(channel_name).topic, topic, line);
+});
