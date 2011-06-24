@@ -3,24 +3,25 @@
 // Keep track of the IRC environment. Who you are, what channels you're in,
 // what nicks you know, etc.
 
-var ENV = {
+function IRCSession(){
   // information about the server
-  'chantypes': '#',  // TODO read from raw 005
-  'chanmodes': 'eIbq,k,flj,CFLMPQcgimnprstz', // TODO read from raw 005
-  'chanlimit': 120, // TODO read from raw 005
-  'prefix': '(ov)@+',  // TODO read from raw 005
-  'network': 'unknown network', // TODO
-  'server': '', // TODO
+  this.chantypes = '#';  // TODO read from raw 005
+  this.chanmodes = 'eIbq,k,flj,CFLMPQcgimnprstz'; // TODO read from raw 005
+  this.chanlimit = 120; // TODO read from raw 005
+  this.prefix = '(ov)@+';  // TODO read from raw 005
+  this.network = 'unknown network'; // TODO
+  this.server = ''; // TODO
+
   // information about your channels
-  'channels': {},
-  'addChannel': function(chan){
+  this.channels = {};
+  this.addChannel = function(chan){
     this.channels[chan.name] = chan;
-  },
-  'cleanChannelName': function(s){
-    //FIXME this is the same as Channel.cleanName
+  };
+  this.cleanChannelName = function(s){
+    //FIXME this is the same as Channel.cleanName, make it available as a static method
     return s.substr(1).toLowerCase();
-  },
-  'getChannelByName': function(name){
+  };
+  this.getChannelByName = function(name){
     var chan = this.channels[this.cleanChannelName(name)];
     if (chan){
       return chan;
@@ -28,23 +29,20 @@ var ENV = {
       //console.error("missing channel name", name, this.channels);
       return false;
     }
-  },
+  };
+
   // information about users
-  'users': {},
-  'addUser': function(user){
+  this.users = {};
+  this.addUser = function(user){
     this.users[user.address] = user;
-  },
+  };
   // other stuff
 
   // send message to node.js to connect to a server
   // options = {action: "connect", host: String, port: Int, nick: String, pass: String}
-  'connect': function(options){
+  this.connect = function(options){
     socket.send(options);
-  },
-  // set self to default state
-  'reset': function(options){
-    this.channels = {};
-    this.users = {};
-  },
-};
+  };
+}
 
+var ENV = new IRCSession();
