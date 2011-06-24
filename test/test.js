@@ -52,7 +52,7 @@ test("join", function(){
   ENV.reset();
   var line = ":" + address + " JOIN :" + channel_name;
   parse_chunk(line);
-  equal(ENV.channels[Channel.cleanName(channel_name)].channel, channel_name, line);
+  equal(ENV.getChannelByName(channel_name).channel, channel_name, line);
   //TODO test that nick is in channel
 });
 test("privmsg", function(){
@@ -60,6 +60,6 @@ test("privmsg", function(){
   var user = new User(address);
   var line = ":" + address + " PRIVMSG " + channel_name + " :" + message;
   parse_chunk(line);
-  equal(ENV.channels[Channel.cleanName(channel_name)].$elem.find('span.message').text(), message, line);
-  equal(ENV.channels[Channel.cleanName(channel_name)].$elem.find('span.nick').text(), user.nick, line);
+  equal(ENV.getChannelByName(channel_name).$elem.find('span.message').text(), message, line);
+  equal(ENV.getChannelByName(channel_name).$elem.find('span.nick').text(), user.nick, line);
 });
