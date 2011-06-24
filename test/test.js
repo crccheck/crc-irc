@@ -63,3 +63,9 @@ test("privmsg", function(){
   equal(ENV.getChannelByName(channel_name).$elem.find('span.message').text(), message, line);
   equal(ENV.getChannelByName(channel_name).$elem.find('span.nick').text(), user.nick, line);
 });
+test("332, get topic", function(){
+  var topic = "Hot Topic";
+  var line = ":irc.example.com 332 me " + channel_name + " :" + topic;
+  parse_chunk(line);
+  equal(ENV.getChannelByName(channel_name).topic, topic, line);
+});
