@@ -42,3 +42,13 @@ test("no message", function(){
                                "target": "#mychannel",
                                "args": undefined});
 });
+module("rfc1459");
+test("join", function(){
+  ENV.reset();
+  var channel_name = "#foobar";
+  var address = "funky!~bunch@marky.mk"
+  var line = ":" + address + " JOIN :" + channel_name;
+  parse_chunk(line);
+  equal(ENV.channels[Channel.cleanName(channel_name)].channel, channel_name);
+  //TODO test that nick is in channel
+});

@@ -21,7 +21,7 @@ function parse_line(line){
           source: sender,
           type: type,
           target: target,
-          args: tokens[1]}
+          args: tokens[1]};
 }
 
 // separate each chunk into individual messages and send them to be dispatched
@@ -35,13 +35,6 @@ function parse_chunk(lines){
   }
 }
 
-var socket = new io.Socket("");
-socket.connect();
-socket.on('connect', function(){ });
-socket.on('disconnect', function(){ });
-socket.on('message', parse_chunk);
-
-
 // translates mIRC style command to start a connection
 // /server host[:port] [pass]
 function server(tokens){
@@ -53,6 +46,18 @@ function server(tokens){
   var pass = tokens[1] || '';
   return {action:"connect", host:host, port:port, nick:$('#connect-nick').val(), pass:pass};
 }
+
+if (typeof io !== "undefined"){
+  var socket = new io.Socket("");
+  socket.connect();
+  socket.on('connect', function(){ });
+  socket.on('disconnect', function(){ });
+  socket.on('message', parse_chunk);
+} else {
+  // stub socket for testing
+  var socket = {'send': function(s){ console.log("socket.send(" + s + ")"); }};
+}
+
 $('#connect').submit(function(){
   var options = {
     action: "connect",
@@ -60,7 +65,7 @@ $('#connect').submit(function(){
     port: +($('#connect-port').val() || 6667),
     nick: $('#connect-nick').val(),
     pass: $('#connect-pass').val(),
-    name: $('#connect-name').val(),
+    name: $('#connect-name').val()
   };
   // TODO validate
   ENV.connect(options);

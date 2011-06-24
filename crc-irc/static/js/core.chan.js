@@ -6,7 +6,7 @@ function Channel(name){
   }
   var self = this;
   this.channel = name;
-  this.name = this.cleanName(name);
+  this.name = Channel.cleanName(name);
   if (document.getElementById(this.name)){
     return;
   }
@@ -54,7 +54,7 @@ Channel.prototype.setTopic = function(s){
 
 // cleanName(String)
 // @return a standardized version of the channel name
-Channel.prototype.cleanName = function(s){
+Channel.cleanName = function(s){
   // strip channel prefix and force lower case
   return s.substr(1).toLowerCase();
 };

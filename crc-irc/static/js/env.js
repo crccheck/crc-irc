@@ -17,12 +17,8 @@ function IRCSession(){
   this.addChannel = function(chan){
     this.channels[chan.name] = chan;
   };
-  this.cleanChannelName = function(s){
-    //FIXME this is the same as Channel.cleanName, make it available as a static method
-    return s.substr(1).toLowerCase();
-  };
   this.getChannelByName = function(name){
-    var chan = this.channels[this.cleanChannelName(name)];
+    var chan = this.channels[Channel.cleanName(name)];
     if (chan){
       return chan;
     } else {
@@ -43,6 +39,12 @@ function IRCSession(){
   this.connect = function(options){
     socket.send(options);
   };
+
+  // throw away previous state
+  this.reset = function(){
+    this.channels = {};
+    this.users = {};
+  }
 }
 
 var ENV = new IRCSession();
