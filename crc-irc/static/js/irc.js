@@ -61,7 +61,7 @@ if (typeof io !== "undefined"){
   CANVAS = $('<div/>')[0];
 }
 
-$('#connect').submit(function(){
+$('#connect > form').submit(function(){
   var options = {
     action: "connect",
     host: $('#connect-host').val(),
