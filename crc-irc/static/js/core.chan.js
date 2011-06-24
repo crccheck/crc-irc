@@ -13,7 +13,7 @@ function Channel(name){
   this.$elem = $('<section id="' + this.name  +'" class="channel shadow">' +
     '<header><h1 class="channel-name">'+name+'</h1><h2 class="topic"></h2></header>' +
     '<aside></aside><ol class="content"></ol>' +
-    '<footer><input type="text" placeholder="Enter a message"></footer>').appendTo(document.body);
+    '<footer><input type="text" placeholder="Enter a message"></footer>').appendTo(CANVAS);
   this.$topic = this.$elem.find('h2');
   this.$content = this.$elem.find('ol');
   this.$input = this.$elem.find('input:first').change(function(){

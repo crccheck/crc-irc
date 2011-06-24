@@ -1,5 +1,7 @@
 // CONFIGURATION
 var COMMAND_PREFIX = '/';
+var CANVAS = document.body;  // where the app drops elements
+
 
 function dispatch(data){
   var dispatcher = RFC1459;
@@ -55,7 +57,8 @@ if (typeof io !== "undefined"){
   socket.on('message', parse_chunk);
 } else {
   // stub socket for testing
-  var socket = {'send': function(s){ console.log("socket.send(" + s + ")"); }};
+  var socket = {'send': function(s){ console.log("socket.send(" + JSON.stringify(s) + ")"); }};
+  CANVAS = $('<div/>')[0];
 }
 
 $('#connect').submit(function(){
