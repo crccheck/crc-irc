@@ -21,6 +21,14 @@ function dump(){
    document.getElementById('status-content').innerHTML += this.line + "\n";
 }
 
+function ignore(){
+  // do nothing
+}
+
+function notimplemented(){
+  // do nothing
+}
+
 function BaseIRCObject(){
   this._bind = {};
   this.bind = function(eventName, func){

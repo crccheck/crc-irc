@@ -12,7 +12,7 @@ function Channel(name){
   }
   this.$elem = $('<section id="' + this.name  +'" class="channel shadow">' +
     '<header><h1 class="channel-name">'+name+'</h1><h2 class="topic"></h2></header>' +
-    '<aside></aside><ol class="content"></ol>' +
+    '<aside><ul></ul></aside><ol class="content"></ol>' +
     '<footer><input type="text" placeholder="Enter a message"></footer>').appendTo(CANVAS);
   this.$topic = this.$elem.find('h2');
   this.$content = this.$elem.find('ol');
@@ -21,6 +21,8 @@ function Channel(name){
     socket.send({action:'raw', message:"PRIVMSG " + self.channel + " " + this.value});
     this.value = '';
   });
+  this.nicklist = [];
+  this.$nicklist = this.$elem.find('aside > ul');
 
   ENV.addChannel(this);
 }
@@ -60,6 +62,23 @@ Channel.prototype.setTopic = function(s){
   this.$topic.text(s);
 };
 
+Channel.prototype.hasNick = function(nick){
+  return this.nicklist.indexOf(nick) !== -1
+}
+
+Channel.prototype.addNick = function(nick){
+  if (!this.hasNick(nick)){
+    this.nicklist.push(nick);
+    this.$nicklist.append($('<li>' + nick + '</li>'));
+  }
+};
+
+Channel.prototype.addNicks = function(nickArray){
+  var self = this;
+  nickArray.forEach(function(nick){
+    self.addNick(nick);
+  });
+};
 
 // -------------------- HELPERS --------------------
 

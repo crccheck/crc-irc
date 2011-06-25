@@ -33,6 +33,15 @@ var RFC1459 = {
     var topic = this.args;
     ENV.getChannelByName(chanName).setTopic(topic);
   },
-  "372": dump,
+  "333": notimplemented,  // how old the topic is
+  "353": function(){
+    var chanName = this.target.split(' ')[2];
+    var chan = ENV.getChannelByName(chanName);
+    chan.addNicks(this.args.split(' '));
+    // NAMES response
+
+  },
+  "366": ignore,  // End of /NAMES list
+  "372": notimplemented,  // welcome
   "462": dump
 };

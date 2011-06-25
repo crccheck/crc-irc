@@ -38,6 +38,7 @@ body {
     }
 
 .channel {
+    position: relative;
     margin: 1em auto;
     width: 800px;
 }
@@ -60,6 +61,14 @@ body {
     }
     .channel input[type=text] { width: 763px; }
     .channel input[type=submit] { width: 33px; }
+
+    aside {
+        float: right;
+        min-height: 50px;
+        max-height: 10em;
+        overflow-y: auto;
+        width: 100px;
+    }
 
     #status textarea {
         width: 798px;
