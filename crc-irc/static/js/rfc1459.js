@@ -6,16 +6,18 @@ var RFC1459 = {
     if (!chan) {
       chan = new Channel(this.args);
     }
-    var nick = (new User(this.source)).nick;
-    chan.addNick(nick);
+    var sender = (new User(this.source));
+    chan.addNick(sender.nick);
+    chan.echo({type: this.type, sender: sender});
   },
+  "MODE": implementlater,
   "PRIVMSG": function(){
     var sender = new User(this.source);
     var chan = this.target;
     var message = this.args;
-    var _chan = ENV.getChannelByName(chan);
-    if (_chan){
-      _chan.pubmsg({sender: sender, message: message});
+    var chan = ENV.getChannelByName(chan);
+    if (chan){
+      chan.echo({type: this.type, sender: sender, message: message});
     }
   },
   "TOPIC": function(){
@@ -28,8 +30,10 @@ var RFC1459 = {
     var sender = new User(this.source);
     var message = this.args;
     ENV.getAllChannels().forEach(function(chan){
-      chan.delNick(sender.nick);
-      // TODO display quit message
+      if (chan.hasNick(sender.nick)){
+        chan.echo({type: "quit", sender: sender, message: message});
+        chan.delNick(sender.nick);
+      }
     });
   },
   "332": function(){
@@ -46,5 +50,7 @@ var RFC1459 = {
   },
   "366": ignore,  // End of /NAMES list
   "372": implementlater,  // welcome
+  "375": implementlater,  // MOTD opening
+  "376": implementlater,  // End of /MOTD command
   "462": dump
 };

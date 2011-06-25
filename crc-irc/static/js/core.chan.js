@@ -17,7 +17,7 @@ function Channel(name){
   this.$topic = this.$elem.find('h2');
   this.$content = this.$elem.find('ol');
   this.$input = this.$elem.find('input:first').change(function(){
-    self.pubmsg({sender: 'me', message: this.value});
+    self.echo({type: 'privmsg', sender: 'me', message: this.value});  // fake privmsg
     socket.send({action:'raw', message:"PRIVMSG " + self.channel + " " + this.value});
     this.value = '';
   });
@@ -29,20 +29,29 @@ function Channel(name){
 
 // ------------------------ API -----------------------
 
-// pubmsg(data)
-// data -> {sender: User,
-//          message: String}
-Channel.prototype.pubmsg = function(data){
-  var line = $('<li class="pubmsg"/>').html('<time></time>' +
-    '<span class="nick">' + data.sender + '</span>' +
-    '<span class="message"></span>');
-  line.children('.message').text(data.message);
-  line.appendTo(this.$content);
+// message(li)  li is a jquery list item: $(LI)
+// manages timestamps, advances scroll bar, TODO manage scrollback
+Channel.prototype.message = function(li){
+  li.prepend('<time></time>');
+  li.appendTo(this.$content);
   if (this.$content && this.$content.length) {
     this.$content[0].scrollTop = this.$content[0].scrollHeight;
   } else {
     console.log("missing $content", this);
   }
+};
+
+// pubmsg(data)
+// data -> {sender: User,
+//          message: String,
+//          type: String}
+Channel.prototype.echo = function(data){
+  data.type = data.type || "";
+  var line = $('<li class="' + data.type.toLowerCase() + '"/>').html(
+    '<span class="nick">' + data.sender + '</span>' +
+    '<span class="message"></span>');
+  line.children('.message').text(data.message);
+  this.message(line);
 };
 
 // retrieve the i-th message in reverse chronological order, 0-indexed

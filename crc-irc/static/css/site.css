@@ -79,8 +79,15 @@ body {
 
 /* GENERAL STYLES FOR IRC EVENTS, TYPES */
 .nick { font-weight: bold; }
-.nick:before { content: "<"; }
-.nick:after { content: ">"; }
-
 .message { margin-left: 0.5em; }
+
+.join { color: #0A0; }
+    .join .message{
+        content: "joins";
+    }
+.part { color: #00A; }
+.privmsg { }
+    .privmsg > .nick:before { content: "<"; }
+    .privmsg > .nick:after { content: ">"; }
+.quit { color: #0AA; }
 
