@@ -13,7 +13,7 @@ function User(address){
 // @return nick without any mode prefixes
 User.cleanNick = function(nick){
   return nick.replace(/^[@+]/, '');
-}
+};
 
 // @return the string representation of the user
 User.prototype.toString = function(){

@@ -17,15 +17,6 @@ function IRCSession(){
   this.addChannel = function(chan){
     this.channels[chan.name] = chan;
   };
-  this.getChannelByName = function(name){
-    var chan = this.channels[Channel.cleanName(name)];
-    if (chan){
-      return chan;
-    } else {
-      //console.error("missing channel name", name, this.channels);
-      return false;
-    }
-  };
 
   // information about users
   this.users = {};
@@ -46,5 +37,25 @@ function IRCSession(){
     this.users = {};
   };
 }
+
+IRCSession.prototype.getChannelByName = function(name){
+  var chan = this.channels[Channel.cleanName(name)];
+  if (chan){
+    return chan;
+  } else {
+    //console.error("missing channel name", name, this.channels);
+    return false;
+  }
+};
+IRCSession.prototype.getAllChannels = function(){
+  // chrome doesn't have for each ... in :(
+  var x, list = [];
+  for (x in this.channels) {
+    if (this.channels.hasOwnProperty(x)){
+      list.push(this.channels[x]);
+    }
+  }
+  return list;
+};
 
 var ENV = new IRCSession();

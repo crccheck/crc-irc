@@ -78,9 +78,21 @@ test("TOPIC, set topic", function(){
 });
 test("353, NAMES list", function(){
   var chan = new Channel(channel_name);
-  var line = ":kornbluth.freenode.net 353 kurol = " + channel_name + " :@SomeOp +SomeVoice SomeNick DLange DanGer Daviey Defektro DigitalKiwi Disp_ EnTeQuAk Epcylon Espen-_- ExtraSpice Fandekasp Frantic FunkyBob Gorroth GrahamDumpleton Grega Grepsd|BNC Henoxek IAmRoot Irex JDigital JanC_ JoeJulian Jygga KBme Katharsis Leonidas LiamM Llew Luyt Marchael MatToufoutu McMAGIC--Copy Modius MrITR NoNaMeNo Nume Oli`` PKKid-Work Pathin_ Perlboy Pici PiotrSikora Proditor Prometheus Quarryman R00sterJuice"
+  var line = ":kornbluth.freenode.net 353 kurol = " + channel_name + " :@SomeOp +SomeVoice SomeNick DLange DanGer Daviey Defektro DigitalKiwi Disp_ EnTeQuAk Epcylon Espen-_- ExtraSpice Fandekasp Frantic FunkyBob Gorroth GrahamDumpleton Grega Grepsd|BNC Henoxek IAmRoot Irex JDigital JanC_ JoeJulian Jygga KBme Katharsis Leonidas LiamM Llew Luyt Marchael MatToufoutu McMAGIC--Copy Modius MrITR NoNaMeNo Nume Oli`` PKKid-Work Pathin_ Perlboy Pici PiotrSikora Proditor Prometheus Quarryman R00sterJuice";
   parse_chunk(line);
   ok(ENV.getChannelByName(channel_name).hasNick('SomeOp'));
   ok(ENV.getChannelByName(channel_name).hasNick('SomeVoice'));
   ok(ENV.getChannelByName(channel_name).hasNick('SomeNick'));
+});
+
+
+module("env");
+test("getAllChannels", function(){
+  ENV.reset();
+  var channelsToAdd = ['#a', '#b', '#c'];
+  channelsToAdd.forEach(function(channel_name){
+    new Channel(channel_name);
+  });
+  var channelsAdded = ENV.getAllChannels().map(function(x) { return x.channel; });
+  deepEqual(channelsAdded, channelsToAdd);
 });
