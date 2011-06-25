@@ -1,0 +1,27 @@
+{
+  "name": "crc-irc",
+  "description": "A JavaScript based IRC client with a thin node.js proxy",
+  "version": "0.0.1",
+  "homepage": "https://github.com/crccheck/crc-irc",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/crccheck/crc-irc.git"
+  },
+  "author": "Chris Chang",
+  "main": "crc-irc",
+  "directories": {
+    "lib": "crc-irc"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "files": [
+    ""
+  ],
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ]
+}
