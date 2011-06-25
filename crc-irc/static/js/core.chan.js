@@ -63,10 +63,12 @@ Channel.prototype.setTopic = function(s){
 };
 
 Channel.prototype.hasNick = function(nick){
+  nick = User.cleanNick(nick);
   return this.nicklist.indexOf(nick) !== -1;
 };
 
 Channel.prototype.addNick = function(nick){
+  nick = User.cleanNick(nick);
   if (!this.hasNick(nick)){
     this.nicklist.push(nick);
     this.$nicklist.append($('<li>' + nick + '</li>'));

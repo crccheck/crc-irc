@@ -10,6 +10,11 @@ function User(address){
   ENV.addUser(this);
 }
 
+// @return nick without any mode prefixes
+User.cleanNick = function(nick){
+  return nick.replace(/^[@+]/, '');
+}
+
 // @return the string representation of the user
 User.prototype.toString = function(){
   return this.nick;
