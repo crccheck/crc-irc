@@ -32,7 +32,8 @@ function Channel(name){
 // message(li)  li is a jquery list item: $(LI)
 // manages timestamps, advances scroll bar, TODO manage scrollback
 Channel.prototype.message = function(li){
-  li.prepend('<time></time>');
+  var now = new Date();
+  li.prepend('<time datetime="' + now.strftime('%Y-%m-%dT%H:%M:%S%z') + '">' + now.strftime('%H:%M:%S') + '</time>');
   li.appendTo(this.$content);
   if (this.$content && this.$content.length) {
     this.$content[0].scrollTop = this.$content[0].scrollHeight;

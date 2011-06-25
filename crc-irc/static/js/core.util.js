@@ -30,7 +30,8 @@ function implementlater(){
 }
 
 function notimplemented(){
-  console.log(this.type, "source: (" + this.source + ") target: (" + this.target + ") args:", this.args);
+  console.log("NOT IMPLEMENTED: (" + this.type + ") source: (" + this.source + ") target: (" + this.target + ") args:", this.args);
+  console.log("\t", this.line);
 }
 
 function BaseIRCObject(){
