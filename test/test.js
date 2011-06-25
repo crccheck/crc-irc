@@ -46,7 +46,8 @@ test("no message", function(){
 
 module("rfc1459");
 var channel_name = "#foobar";
-var address = "funky!~bunch@marky.mk";
+var test_nick = "funky";
+var address = test_nick + "!~bunch@marky.mk";
 var message = "hello world";
 test("join", function(){
   ENV.reset();
@@ -76,6 +77,19 @@ test("TOPIC, set topic", function(){
   parse_chunk(line);
   equal(ENV.getChannelByName(channel_name).topic, topic, line);
 });
+test("QUIT", function(){
+  var line = ":" + address + " QUIT :Ping timeout: 240 seconds";
+  parse_chunk(line);
+  var chan = new Channel(channel_name);
+  chan.addNick(test_nick);
+  ok(chan.hasNick(test_nick));
+  equal(chan.nicklist.length, 1);
+  equal(chan.$nicklist.children().length, 1);
+  parse_chunk(line);
+  ok(!chan.hasNick(test_nick));
+  equal(chan.nicklist.length, 0);
+  equal(chan.$nicklist.children().length, 0);
+});
 test("353, NAMES list", function(){
   var chan = new Channel(channel_name);
   var line = ":kornbluth.freenode.net 353 kurol = " + channel_name + " :@SomeOp +SomeVoice SomeNick DLange DanGer Daviey Defektro DigitalKiwi Disp_ EnTeQuAk Epcylon Espen-_- ExtraSpice Fandekasp Frantic FunkyBob Gorroth GrahamDumpleton Grega Grepsd|BNC Henoxek IAmRoot Irex JDigital JanC_ JoeJulian Jygga KBme Katharsis Leonidas LiamM Llew Luyt Marchael MatToufoutu McMAGIC--Copy Modius MrITR NoNaMeNo Nume Oli`` PKKid-Work Pathin_ Perlboy Pici PiotrSikora Proditor Prometheus Quarryman R00sterJuice";
@@ -95,4 +109,12 @@ test("getAllChannels", function(){
   });
   var channelsAdded = ENV.getAllChannels().map(function(x) { return x.channel; });
   deepEqual(channelsAdded, channelsToAdd);
+});
+
+module("jquery");
+test("can select nick's li", function(){
+  ENV.reset();
+  var chan = new Channel('#abc');
+  chan.addNick('foobar');
+  ok(chan.$nicklist.children(':[data-nick=foobar]').length);
 });

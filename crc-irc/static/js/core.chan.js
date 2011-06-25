@@ -71,8 +71,21 @@ Channel.prototype.addNick = function(nick){
   nick = User.cleanNick(nick);
   if (!this.hasNick(nick)){
     this.nicklist.push(nick);
-    this.$nicklist.append($('<li>' + nick + '</li>'));
+    this.$nicklist.append($('<li data-nick="'+nick+'">' + nick + '</li>'));
+    return true;
   }
+  return false;
+};
+
+Channel.prototype.delNick = function(nick){
+  nick = User.cleanNick(nick);
+  var idx = this.nicklist.indexOf(nick);
+  if (idx !== -1){
+    this.nicklist.splice(idx, 1);
+    this.$nicklist.children(':[data-nick=' + nick + ']').remove();
+    return true;
+  }
+  return false;
 };
 
 Channel.prototype.addNicks = function(nickArray){
@@ -81,6 +94,7 @@ Channel.prototype.addNicks = function(nickArray){
     self.addNick(nick);
   });
 };
+
 
 // -------------------- HELPERS --------------------
 

@@ -27,7 +27,10 @@ var RFC1459 = {
   "QUIT": function(){
     var sender = new User(this.source);
     var message = this.args;
-    notimplemented.call(this);
+    ENV.getAllChannels().forEach(function(chan){
+      chan.delNick(sender.nick);
+      // TODO display quit message
+    });
   },
   "332": function(){
     var chanName = this.target.split(' ')[1];
