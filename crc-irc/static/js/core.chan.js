@@ -54,7 +54,7 @@ Channel.prototype.get_message = function(i){
     return {"nick": line.find('.nick').text(),
             "message": line.find('.message').text()};
   }
-}
+};
 
 // setTopic(String)
 Channel.prototype.setTopic = function(s){
@@ -63,8 +63,8 @@ Channel.prototype.setTopic = function(s){
 };
 
 Channel.prototype.hasNick = function(nick){
-  return this.nicklist.indexOf(nick) !== -1
-}
+  return this.nicklist.indexOf(nick) !== -1;
+};
 
 Channel.prototype.addNick = function(nick){
   if (!this.hasNick(nick)){

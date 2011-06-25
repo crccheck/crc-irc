@@ -9,7 +9,7 @@ function dispatch(data){
   if (fun) {
     fun.call(data);
   } else {
-    console.log(data.type, "source: (" + data.source + ") target: (" + data.target + ") args:", data.args);
+    notimplemented.call(data);
   }
 }
 

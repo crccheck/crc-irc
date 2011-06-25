@@ -6,7 +6,7 @@ var RFC1459 = {
     if (!chan) {
       chan = new Channel(this.args);
     }
-    // add user to IAL and channel user list
+    notimplemented.call(this);
   },
   "PRIVMSG": function(){
     var sender = new User(this.source);
@@ -26,22 +26,21 @@ var RFC1459 = {
   "QUIT": function(){
     var sender = new User(this.source);
     var message = this.args;
-    //ENV.quit(sender, message);
+    notimplemented.call(this);
   },
   "332": function(){
     var chanName = this.target.split(' ')[1];
     var topic = this.args;
     ENV.getChannelByName(chanName).setTopic(topic);
   },
-  "333": notimplemented,  // how old the topic is
+  "333": implementlater,  // how old the topic is
   "353": function(){
+    // NAMES response
     var chanName = this.target.split(' ')[2];
     var chan = ENV.getChannelByName(chanName);
     chan.addNicks(this.args.split(' '));
-    // NAMES response
-
   },
   "366": ignore,  // End of /NAMES list
-  "372": notimplemented,  // welcome
+  "372": implementlater,  // welcome
   "462": dump
 };

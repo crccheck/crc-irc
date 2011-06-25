@@ -44,7 +44,7 @@ function IRCSession(){
   this.reset = function(){
     this.channels = {};
     this.users = {};
-  }
+  };
 }
 
 var ENV = new IRCSession();

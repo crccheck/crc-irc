@@ -18,15 +18,19 @@ String.prototype.psplit = function(sep, limit){
 
 // temporary console.log-like function
 function dump(){
-   document.getElementById('status-content').innerHTML += this.line + "\n";
+  document.getElementById('status-content').innerHTML += this.line + "\n";
 }
 
 function ignore(){
   // do nothing
 }
 
-function notimplemented(){
+function implementlater(){
   // do nothing
+}
+
+function notimplemented(){
+  console.log(this.type, "source: (" + this.source + ") target: (" + this.target + ") args:", this.args);
 }
 
 function BaseIRCObject(){
