@@ -34,7 +34,7 @@ We don't really need node.js to serve the static media, it's just convenient.
 
 Run the server (you may need to sudo)
 
-    node hello.js
+    node server.js
 
 To connect to a server, fill out the form up top and hit `connect`.
 Or you can just fill in the nick and use mIRC-style command in the status: `/server host:port [pass]`
@@ -42,7 +42,6 @@ Or you can just fill in the nick and use mIRC-style command in the status: `/ser
 Limitations
 -----------
 
-* I'm pretty sure it can only support one client at a time. It's an easy fix, but since I'm only writing it for myself right now, I don't care.
 * Limited functionality. This should be considered pre-alpha and non-functional.
 
 Needs
@@ -50,7 +49,7 @@ Needs
 
 * Documenting: I've ready a few paradigms for documenting code, JavaScript in particular, but it's not ingrained in me. I want to find a convention that's easy to read and if it can be used to auto-generate docs that's a plus.
 * Packaging: I don't know how to package this thing. I haven't even gotten around to looking around at other projects.
-* Testing: JavaScript testing is still evolving. I've seen [Jasmine](http://pivotal.github.com/jasmine/) and [QUnit](http://docs.jquery.com/Qunit). What else is out there?
+* Testing: JavaScript testing is still evolving. I've seen [Jasmine](http://pivotal.github.com/jasmine/) and [QUnit](http://docs.jquery.com/Qunit). What else is out there? I'm trying QUnit for now.
 * Building: Some build process would be nice. Concatenating all the .js modules.
 * Licensing: Apache? MIT? GPL?
 
