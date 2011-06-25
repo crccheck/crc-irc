@@ -6,7 +6,8 @@ var RFC1459 = {
     if (!chan) {
       chan = new Channel(this.args);
     }
-    notimplemented.call(this);
+    var nick = (new User(this.source)).nick;
+    chan.addNick(nick);
   },
   "PRIVMSG": function(){
     var sender = new User(this.source);

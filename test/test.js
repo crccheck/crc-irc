@@ -52,8 +52,9 @@ test("join", function(){
   ENV.reset();
   var line = ":" + address + " JOIN :" + channel_name;
   parse_chunk(line);
-  equal(ENV.getChannelByName(channel_name).channel, channel_name, line);
-  //TODO test that nick is in channel
+  var chan = ENV.getChannelByName(channel_name);
+  equal(chan.channel, channel_name, line);
+  ok(chan.hasNick('funky'));
 });
 test("privmsg", function(){
   var chan = new Channel(channel_name);
