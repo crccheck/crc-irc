@@ -44,6 +44,15 @@ var RFC1459 = {
       }
     });
   },
+  "250": implementlater,  // Highest connection count: ...
+  "251": implementlater,  // There are ... users and ... invisible on ..servers
+  "252": implementlater,  // ... : IRC Operators online
+  "254": implementlater,  // ... :channels formed
+  "255": implementlater,  // I have ... clients and .. servers
+  "265": implementlater,  // Current local users ...
+  "266": implementlater,  // Current global users ...
+  "324": implementlater,  // channel modes
+  "329": implementlater,  // how old ... something ... is
   "332": function(){
     var chanName = this.target.split(' ')[1];
     var topic = this.args;
