@@ -1,4 +1,4 @@
-module("psplit");
+module("util - psplit");
 var s = "1 2 3 4 5";
 test("psplit without limit", function(){
   deepEqual(s.psplit(" "), ["1", "2", "3", "4", "5"]);
@@ -15,7 +15,45 @@ test("psplit with regexp", function(){
 test("psplit with regexp and limit behaves like split", function(){
   deepEqual(s.psplit(/ /, 2), ["1", "2"]);
 });
-
+module("util - serializers");
+test("deserialize can take multiple defaults", function(){
+  localStorage.clear('test');
+  deepEqual(deserialize('test'), {});
+  deepEqual(deserialize('test', '{}'), {});
+  deepEqual(deserialize('test', []), []);
+  deepEqual(deserialize('test', '[]'), []);
+  deepEqual(deserialize('test', 4), 4);
+  deepEqual(deserialize('test', undefined), {});  // why would you pass in undefined?
+  localStorage.clear('test');
+});
+test("util - crc32", function(){
+  equal(crc32(''), '0');
+  // took these tests from http://www.createwindow.com/programming/crc32/crcverify.htm
+  equal(crc32('resume'), '60c1d0a0');
+  equal(crc32('resumé'), '84cf1fab');
+  // found these on http://www.opensource.apple.com/source/tcl/tcl-87/tcl_ext/tcllib/tcllib/modules/crc/crc32.test
+  equal(crc32('a'), 'e8b7be43');
+  equal(crc32('abc'), '352441c2');
+  equal(crc32('message digest'), '20159d7f');
+  equal(crc32('abcdefghijklmnopqrstuvwxyz'), '4c2750bd');
+  equal(crc32('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'), '1fc2e6d2');
+  equal(crc32('12345678901234567890123456789012345678901234567890123456789012345678901234567890'), '7ca94a72');
+  equal(crc32('\uFFFE\u0000\u0001\u0002'), 'b0e8eee5');
+  equal(crc32('-'), '97ddb3f8');
+  equal(crc32('--'), '242c1465');
+});
+test("serialize then deserialize", function(){
+  localStorage.clear('test');
+  serialize('test', 0);
+  deepEqual(deserialize('test'), 0);
+  serialize('test', '0');
+  deepEqual(deserialize('test'), '0');
+  serialize('test', [0,1,2]);
+  deepEqual(deserialize('test'), [0,1,2]);
+  serialize('test', {'a':'b'});
+  deepEqual(deserialize('test'), {'a':'b'});
+  localStorage.clear('test');
+});
 
 module("parse line");
 test("typical PRIVMSG", function(){

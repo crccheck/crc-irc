@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="/css/site.css" type="text/css" media="screen">
 </head>
 <body>
+    <section id="pane-north" class="toolbar">
     <div id="connect" class="shadow">
-        <form method="post" action="" target="devnull" name="connect-form">
+        <form id="connect-form" method="post" action="" target="devnull" name="connect-form">
             <label for="connect-nick">nick</label><input id="connect-nick" name="nick" required placeholder="nick" type="text">
             <label for="connect-host">host</label><input id="connect-host" name="host" required placeholder="irc.example.com" type="text">
             <label for="connect-port">port</label><input id="connect-port" name="port" placeholder="6667" type="text">
@@ -17,15 +18,28 @@
             <input type="submit" value="connect">
         </form>
     </div>
+    </section>
 
-    <section id="status" class="channel shadow">
-        <header>
-            <h1 class="channel-name">Status</h1>
-        </header>
-        <textarea id="status-content" class="content" style="display: block; height: 8em;"></textarea>
-        <footer>
-            <form><input type="text" name="message" placeholder="Enter a message"><input type="submit" value="Send"></form>
-        </footer>
+    <section id="pane-west" class="toolbar">
+
+    </section>
+
+    <section id="pane-east" class="toolbar">
+    </section>
+
+    <section id="pane-south" class="toolbar">
+    </section>
+
+    <section id="pane-main">
+        <section id="status" class="channel shadow">
+            <header>
+                <h1 class="channel-name">Status</h1>
+            </header>
+            <textarea id="status-content" class="content" style="display: block; height: 8em;"></textarea>
+            <footer>
+                <form><input type="text" name="message" placeholder="Enter a message"><input type="submit" value="Send"></form>
+            </footer>
+        </section>
     </section>
 
     <iframe class="hidden" name="devnull"></iframe>
@@ -40,6 +54,7 @@
     <script src="/js/rfc1459.js"></script>
     <script src="/js/irc.js"></script>
     <script src="/js/site.js"></script>
+    <script src="/js/plugin.connections.js"></script>
 </body>
 </html>
 

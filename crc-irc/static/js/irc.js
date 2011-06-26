@@ -1,7 +1,6 @@
 // CONFIGURATION
 var COMMAND_PREFIX = '/';
-var CANVAS = document.body;  // where the app drops elements, this is set to an unattached DOM node for testing
-
+var CANVAS = document.getElementById("pane-main");  // where the app drops elements, this is set to an unattached DOM node for testing
 
 function dispatch(data){
   var dispatcher = RFC1459;

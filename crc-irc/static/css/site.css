@@ -85,13 +85,10 @@ time:after { content: "]"; }
 .nick { font-weight: bold; }
 .message { margin-left: 0.5em; }
 
-.join { color: #0A0; }
-    .join .nick {
-        font-size: 0.9em;
-    }
-.part { color: #00A; }
+.join { color: #0A0; font-size: 0.9em; }
+.part { color: #00A; font-size: 0.9em; }
 .privmsg { }
     .privmsg > .nick:before { content: "<"; }
     .privmsg > .nick:after { content: ">"; }
-.quit { color: #0AA; }
+.quit { color: #0AA;  font-size: 0.9em; }
 
