@@ -45,11 +45,12 @@ test("no message", function(){
 
 
 module("rfc1459");
+// In alphabetical order, then numerics
 var channel_name = "#foobar";
 var test_nick = "funky";
 var address = test_nick + "!~bunch@marky.mk";
 var message = "hello world";
-test("join", function(){
+test("JOIN", function(){
   ENV.reset();
   var line = ":" + address + " JOIN :" + channel_name;
   parse_chunk(line);
@@ -57,18 +58,12 @@ test("join", function(){
   equal(chan.channel, channel_name, line);
   ok(chan.hasNick('funky'));
 });
-test("privmsg", function(){
+test("PRIVMSG", function(){
   var chan = new Channel(channel_name);
   var user = new User(address);
   var line = ":" + address + " PRIVMSG " + channel_name + " :" + message;
   parse_chunk(line);
   deepEqual(ENV.getChannelByName(channel_name).get_message(0), {nick: user.nick, message: message}, line);
-});
-test("332, get topic", function(){
-  var topic = "Hot Topic";
-  var line = ":irc.example.com 332 me " + channel_name + " :" + topic;
-  parse_chunk(line);
-  equal(ENV.getChannelByName(channel_name).topic, topic, line);
 });
 test("TOPIC, set topic", function(){
   var chan = new Channel(channel_name);
@@ -89,6 +84,12 @@ test("QUIT", function(){
   ok(!chan.hasNick(test_nick));
   equal(chan.nicklist.length, 0);
   equal(chan.$nicklist.children().length, 0);
+});
+test("332, get topic", function(){
+  var topic = "Hot Topic";
+  var line = ":irc.example.com 332 me " + channel_name + " :" + topic;
+  parse_chunk(line);
+  equal(ENV.getChannelByName(channel_name).topic, topic, line);
 });
 test("353, NAMES list", function(){
   var chan = new Channel(channel_name);

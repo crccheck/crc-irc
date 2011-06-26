@@ -1,4 +1,5 @@
 // My implementation of a client as outlined in RFC1459
+// Add in alphabetical order, then numerics
 
 var RFC1459 = {
   "JOIN": function(){
