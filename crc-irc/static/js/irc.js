@@ -1,6 +1,6 @@
 // CONFIGURATION
 var COMMAND_PREFIX = '/';
-var CANVAS = document.body;  // where the app drops elements
+var CANVAS = document.body;  // where the app drops elements, this is set to an unattached DOM node for testing
 
 
 function dispatch(data){
@@ -61,20 +61,6 @@ if (typeof io !== "undefined"){
   CANVAS = $('<div/>')[0];
 }
 
-$('#connect > form').submit(function(){
-  var options = {
-    action: "connect",
-    host: $('#connect-host').val(),
-    port: +($('#connect-port').val() || 6667),
-    nick: $('#connect-nick').val(),
-    pass: $('#connect-pass').val(),
-    name: $('#connect-name').val()
-  };
-  // TODO validate
-  ENV.connect(options);
-  //return false;
-});
-
 // interpret a line from the input and send to IRC
 function send(line){
   if (!line)
@@ -91,6 +77,9 @@ function send(line){
   switch (command){
     case 'server':
       socket.send(server(tokens));
+      break;
+    case 'me':
+      // not implemented yet. here to keep jshint from complaining
       break;
   }
 }

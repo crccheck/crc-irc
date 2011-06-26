@@ -13,9 +13,9 @@ var RFC1459 = {
   "MODE": implementlater,
   "PRIVMSG": function(){
     var sender = new User(this.source);
-    var chan = this.target;
+    var chanName = this.target;
     var message = this.args;
-    var chan = ENV.getChannelByName(chan);
+    var chan = ENV.getChannelByName(chanName);
     if (chan){
       chan.echo({type: this.type, sender: sender, message: message});
     }

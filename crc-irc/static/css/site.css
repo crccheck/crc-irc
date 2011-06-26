@@ -86,8 +86,8 @@ time:after { content: "]"; }
 .message { margin-left: 0.5em; }
 
 .join { color: #0A0; }
-    .join .message{
-        content: "joins";
+    .join .nick {
+        font-size: 0.9em;
     }
 .part { color: #00A; }
 .privmsg { }
