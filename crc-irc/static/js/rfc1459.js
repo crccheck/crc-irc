@@ -12,13 +12,20 @@ var RFC1459 = {
     chan.echo({type: this.type, sender: sender});
   },
   "MODE": implementlater,
+  "PART": function(){
+    var chan = ENV.getChannelByName(this.target);
+    if (chan) {
+      var sender = (new User(this.source));
+      chan.delNick(sender.nick);
+      chan.echo({type: this.type, sender: sender, message: this.args});
+    }
+  },
   "PRIVMSG": function(){
     var sender = new User(this.source);
     var chanName = this.target;
-    var message = this.args;
     var chan = ENV.getChannelByName(chanName);
     if (chan){
-      chan.echo({type: this.type, sender: sender, message: message});
+      chan.echo({type: this.type, sender: sender, message: this.args});
     }
   },
   "TOPIC": function(){

@@ -58,6 +58,25 @@ test("JOIN", function(){
   equal(chan.channel, channel_name, line);
   ok(chan.hasNick('funky'));
 });
+test("PART", function(){
+  var chan = new Channel(channel_name);
+  var user = new User(address);
+  var line = ":" + address + " PART " + channel_name + " :" + message;
+  // joins
+  chan.addNick(test_nick);
+  // parts
+  parse_chunk(line);
+  ok(!chan.hasNick(test_nick), line);
+  // joins again
+  chan.addNick(test_nick);
+  // parts with no message
+  line = ":" + address + " PART " + channel_name;
+  parse_chunk(line);
+  ok(!chan.hasNick(test_nick), line);
+  // someone manages to part without joining
+  parse_chunk(line);
+  ok(!chan.hasNick(test_nick), line);
+});
 test("PRIVMSG", function(){
   var chan = new Channel(channel_name);
   var user = new User(address);
@@ -119,5 +138,7 @@ test("can select nick's li", function(){
   chan.addNick('foobar');
   ok(chan.$nicklist.children(':[data-nick=foobar]').length);
   chan.addNick('sec^nd');
+  ok(chan.$nicklist.children(':[data-nick="sec^nd"]').length);
+  chan.addNick('sec`nd');
   ok(chan.$nicklist.children(':[data-nick="sec^nd"]').length);
 });
