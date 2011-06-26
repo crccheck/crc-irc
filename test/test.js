@@ -117,4 +117,6 @@ test("can select nick's li", function(){
   var chan = new Channel('#abc');
   chan.addNick('foobar');
   ok(chan.$nicklist.children(':[data-nick=foobar]').length);
+  chan.addNick('sec^nd');
+  ok(chan.$nicklist.children(':[data-nick="sec^nd"]').length);
 });

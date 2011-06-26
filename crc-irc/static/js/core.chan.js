@@ -92,7 +92,7 @@ Channel.prototype.delNick = function(nick){
   var idx = this.nicklist.indexOf(nick);
   if (idx !== -1){
     this.nicklist.splice(idx, 1);
-    this.$nicklist.children(':[data-nick=' + nick + ']').remove();
+    this.$nicklist.children(':[data-nick="' + nick + '"]').remove();
     return true;
   }
   return false;
