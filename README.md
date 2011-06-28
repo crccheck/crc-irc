@@ -52,3 +52,10 @@ Needs
 * Testing: JavaScript testing is still evolving. I've seen [Jasmine](http://pivotal.github.com/jasmine/) and [QUnit](http://docs.jquery.com/Qunit). What else is out there? I'm trying QUnit for now.
 * Building: Some build process would be nice. Concatenating all the .js modules.
 
+Environment
+-----------
+
+  node=0.5.0-pre
+  socket.io=0.7.2
+  node-static=0.5.6
+  jshint=0.2.3
