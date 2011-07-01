@@ -1,4 +1,4 @@
 # run test
-jshint crc-irc/static/js/ test/
+jshint crc-irc/*.js crc-irc/static/js/ test/
 
 # find a way to do a headless js test
