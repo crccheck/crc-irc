@@ -7,7 +7,6 @@
       $main = $('#pane-main');
 
   $(CANVAS).bind('create', function(e, chan){
-    console.log('channel created', e, chan);
     var button = $('<div class="button">'+chan.channel+'</div>');
     button.click(function(e){
       var visible = chan.$elem.is(':visible');
@@ -20,7 +19,6 @@
       }
 
     });
-    console.log($base);
     $base.append(button);
   });
 })();

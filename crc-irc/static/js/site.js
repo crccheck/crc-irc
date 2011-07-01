@@ -13,3 +13,6 @@ $('#connect > form').submit(function(){
 });
 
 $('form').submit(false);
+
+loadPlugin('connections');
+loadPlugin('channelbar');
