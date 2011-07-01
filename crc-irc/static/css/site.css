@@ -4,6 +4,13 @@ body {
     font-family: Helvetica, Arial, sans-serif;
 }
 
+/* layout.css */
+#pane-west {
+    position: absolute;
+    left: 0;
+    width: 110px;
+}
+
 .hidden { display: none; visibility: hidden; }
 
 .shadow {
@@ -41,7 +48,7 @@ body {
 .channel {
     position: relative;
     margin: 1em auto;
-    width: 800px;
+    width: 700px;
 }
     .channel-name {
         display: inline;
@@ -51,7 +58,7 @@ body {
 
     .topic {
         display: inline;
-        margin-left: 1em;
+        margin-left: 0.5em;
     }
 
     .content {
@@ -60,8 +67,9 @@ body {
         max-height: 10em;
         overflow-y: auto;
     }
-    .channel input[type=text] { width: 763px; }
-    .channel input[type=submit] { width: 33px; }
+    #status.channel input[type=text] { width: 663px; }
+    #status.channel input[type=submit] { width: 33px; }
+    .channel input[type=text] { width: 696px; }
 
     aside {
         float: right;
@@ -71,9 +79,6 @@ body {
         width: 100px;
     }
 
-    #status textarea {
-        width: 798px;
-    }
     #status > footer { text-align: right; }
         #status input[type=text] { float: left; }
 

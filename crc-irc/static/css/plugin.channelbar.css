@@ -1,0 +1,16 @@
+.ui-channelbar .button {
+    background: #eee;
+    border: 1px solid #AAA;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 2px;
+    text-overflow: ellipsis;
+}
+
+.ui-channelbar .button + .button {
+    border-top: 0 none;
+}
+
+    .ui-channelbar .closed {
+        color: #aaa;
+    }

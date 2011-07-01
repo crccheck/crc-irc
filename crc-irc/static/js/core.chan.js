@@ -13,7 +13,7 @@ function Channel(name){
   this.$elem = $('<section id="' + this.name  +'" class="channel shadow">' +
     '<header><h1 class="channel-name">'+name+'</h1><h2 class="topic"></h2></header>' +
     '<aside><ul></ul></aside><ol class="content"></ol>' +
-    '<footer><input type="text" placeholder="Enter a message"></footer>').appendTo(CANVAS);
+    '<footer><input type="text" placeholder="Message"></footer>').appendTo(CANVAS);
   this.$topic = this.$elem.find('h2');
   this.$content = this.$elem.find('ol');
   this.$input = this.$elem.find('input:first').change(function(){
@@ -24,6 +24,7 @@ function Channel(name){
   this.nicklist = [];
   this.$nicklist = this.$elem.find('aside > ul');
 
+  $(CANVAS).trigger('create', this);
   ENV.addChannel(this);
 }
 

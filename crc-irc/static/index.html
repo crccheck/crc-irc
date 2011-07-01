@@ -5,6 +5,7 @@
     <title>IRC</title>
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssreset/reset-min.css">
     <link rel="stylesheet" href="/css/site.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/plugin.channelbar.css" type="text/css" media="screen">
 </head>
 <body>
     <section id="pane-north" class="toolbar">
@@ -35,9 +36,10 @@
             <header>
                 <h1 class="channel-name">Status</h1>
             </header>
-            <textarea id="status-content" class="content" style="display: block; height: 8em;"></textarea>
+            <div id="status-content" class="content">
+            </div>
             <footer>
-                <form><input type="text" name="message" placeholder="Enter a message"><input type="submit" value="Send"></form>
+                <form><input type="text" name="message" placeholder="Enter text"><input type="submit" value="Send"></form>
             </footer>
         </section>
     </section>
@@ -55,6 +57,7 @@
     <script src="/js/irc.js"></script>
     <script src="/js/site.js"></script>
     <script src="/js/plugin.connections.js"></script>
+    <script src="/js/plugin.channelbar.js"></script>
 </body>
 </html>
 
