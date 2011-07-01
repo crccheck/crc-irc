@@ -1,21 +1,19 @@
-var net = require('net'),
-    io = require('socket.io');
+var net = require('net');
 
 
 // irc connection
-function Connection(socketClient) {
+function Connection(webSocket) {
   var self = this;
   this.buffer = '';
-  this.client = socketClient;
-  this.client.on('message', function(message){
+  this.ws = webSocket;
+  this.ws.on('message', function(message){
     if (message.action == "connect") {
       self.connect(message);
     } else if (message.action == "raw"){
       self.raw(message.message);
     }
-    //this.client.send(message); console.log("got a message", message);
   });
-  this.client.on('disconnect', function(){
+  this.ws.on('disconnect', function(){
     self.destroy();
   });
 
@@ -30,7 +28,7 @@ function Connection(socketClient) {
     }
     self.buffer += data;
     if (/\r\n$/.test(data)) {
-      self.client.send(self.buffer);
+      self.ws.emit('noise', self.buffer);
       console.log("<<<<<<<<<<<");
       console.log(self.buffer);
       console.log(">>>>>>>>>>>");
@@ -68,9 +66,9 @@ Connection.prototype.destroy = function(){
 
 
 function main(httpServer){
-  var socket = io.listen(httpServer);
-  socket.on('connection', function(client){
-    new Connection(client);
+  var io = require('socket.io').listen(httpServer);
+  io.sockets.on('connection', function(socket){
+    new Connection(socket);
   });
 }
 

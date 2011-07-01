@@ -3,7 +3,7 @@ var http = require('http'),
 
 // web and static media server
 var file = new(nstatic.Server)('./static');
-server = http.createServer(function(req, res){
+var server = http.createServer(function(req, res){
   req.addListener('end', function(){
     file.serve(req, res);
   });

@@ -28,7 +28,7 @@ function IRCSession(){
   // send message to node.js to connect to a server
   // options = {action: "connect", host: String, port: Int, nick: String, pass: String}
   this.connect = function(options){
-    socket.send(options);
+    socket.json.send(options);
   };
 
   // throw away previous state

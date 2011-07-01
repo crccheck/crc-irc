@@ -18,7 +18,7 @@ function Channel(name){
   this.$content = this.$elem.find('ol');
   this.$input = this.$elem.find('input:first').change(function(){
     self.echo({type: 'privmsg', sender: 'me', message: this.value});  // fake privmsg
-    socket.send({action:'raw', message:"PRIVMSG " + self.channel + " " + this.value});
+    socket.json.send({action:'raw', message:"PRIVMSG " + self.channel + " " + this.value});
     this.value = '';
   });
   this.nicklist = [];

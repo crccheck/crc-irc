@@ -49,14 +49,14 @@ function server(tokens){
 }
 
 if (typeof io !== "undefined"){
-  var socket = new io.Socket("");
-  socket.connect();
-  socket.on('connect', function(){ });
-  socket.on('disconnect', function(){ });
-  socket.on('message', parse_chunk);
+  var socket = io.connect();
+  socket.on('connect', function(){
+    socket.on('noise', parse_chunk);
+    socket.on('disconnect', function(){ });
+  });
 } else {
   // stub socket for testing
-  var socket = {'send': function(s){ console.log("socket.send(" + JSON.stringify(s) + ")"); }};
+  var socket = {'send': function(s){ console.log("socket.json.send(" + JSON.stringify(s) + ")"); }};
   CANVAS = $('<div/>')[0];
 }
 
@@ -75,7 +75,7 @@ function send(line){
   // if (tokens[1] == COMMAND_PREFIX), process the tokens. evaluates and replace the variables
   switch (command){
     case 'server':
-      socket.send(server(tokens));
+      socket.json.send(server(tokens));
       break;
     case 'me':
       // not implemented yet. here to keep jshint from complaining

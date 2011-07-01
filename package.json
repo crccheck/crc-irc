@@ -26,5 +26,8 @@
   ],
   "scripts": {
     "test": "./runtest"
+  },
+  "dependencies": {
+    "socket.io": ">= 0.7.6"
   }
 }
