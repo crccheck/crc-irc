@@ -67,6 +67,20 @@ Connection.prototype.destroy = function(){
 
 function main(httpServer){
   var io = require('socket.io').listen(httpServer);
+  io.configure('production', function(){
+    io.enable('browser client minification');
+    io.enable('browser client etag');
+    io.set('log level', 1);
+    io.set('transports', [
+      'websocket',
+      'flashsocket',
+      'htmlfile'
+    ]);
+  });
+  io.configure ('development', function(){
+    io.set('log level', 2);
+    io.set('transports', ['websocket']);
+  });
   io.sockets.on('connection', function(socket){
     new Connection(socket);
   });
