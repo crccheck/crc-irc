@@ -44,6 +44,10 @@ var RFC1459 = {
       }
     });
   },
+  "001": function(){
+    $('#connect-form')[0].reset();
+    implementlater.call(this);
+  },
   "250": implementlater,  // Highest connection count: ...
   "251": implementlater,  // There are ... users and ... invisible on ..servers
   "252": implementlater,  // ... : IRC Operators online

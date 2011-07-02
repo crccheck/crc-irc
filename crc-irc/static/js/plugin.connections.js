@@ -1,7 +1,7 @@
 
 (function(){
-  MODULE_KEY = 'connections';
-  MODULE_CANVAS = document.getElementById('pane-north');
+  var MODULE_KEY = 'connections';
+  var MODULE_CANVAS = document.getElementById('pane-north');
 
   var connections = deserialize(MODULE_KEY, []);
   var $base = $('<div id="connections"><ul></ul></div>').appendTo(MODULE_CANVAS);
@@ -18,7 +18,6 @@
   }
 
   function delConnection(connection){
-    console.log(connections.length);
     for (var i = 0; i < connections.length; ++i){
       if (connection.hash == connections[i].hash) break;
     }
