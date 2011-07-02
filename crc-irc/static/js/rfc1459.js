@@ -20,6 +20,11 @@ var RFC1459 = {
   "NICK": function(){
     var sender = new User(this.source);
     var newNick = this.args;
+    sender.getChannels().forEach(function(chan){
+      chan.delNick(sender.nick);
+      chan.addNick(newNick);
+      chan.echo({type: "nickchange", sender: sender, message: "is now known as " + newNick});
+    });
   },
   "PART": function(){
     var chan = ENV.getChannelByName(this.target);

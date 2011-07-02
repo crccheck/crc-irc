@@ -1,3 +1,10 @@
+// crc-irc.js QUnit Tests
+//
+// Keywords Used:
+//
+// * MOCK - an event was faked using the internal API
+
+
 module("util - psplit");
 var s = "1 2 3 4 5";
 test("psplit without limit", function(){
@@ -98,16 +105,27 @@ test("JOIN", function(){
   var user = new User(address);
   deepEqual(user.getChannels(), [chan]);
 });
+test("NICK", function(){
+  ENV.reset();
+  var chan = new Channel(channel_name);
+  var user = new User(address);
+  // MOCK join
+  chan.addNick(test_nick);
+  var line = ":" + address + " NICK :santa";
+  parse_chunk(line);
+  ok(!chan.hasNick(test_nick));
+  ok(chan.hasNick('santa'));
+});
 test("PART", function(){
   var chan = new Channel(channel_name);
   var user = new User(address);
   var line = ":" + address + " PART " + channel_name + " :" + message;
-  // joins
+  // MOCK join
   chan.addNick(test_nick);
   // parts
   parse_chunk(line);
   ok(!chan.hasNick(test_nick), line);
-  // joins again
+  // MOCK join again
   chan.addNick(test_nick);
   // parts with no message
   line = ":" + address + " PART " + channel_name;
