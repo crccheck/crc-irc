@@ -17,6 +17,10 @@ var RFC1459 = {
     }
   },
   "MODE": implementlater,
+  "NICK": function(){
+    var sender = new User(this.source);
+    var newNick = this.args;
+  },
   "PART": function(){
     var chan = ENV.getChannelByName(this.target);
     if (chan) {
@@ -42,11 +46,9 @@ var RFC1459 = {
   "QUIT": function(){
     var sender = new User(this.source);
     var message = this.args;
-    ENV.getAllChannels().forEach(function(chan){
-      if (chan.hasNick(sender.nick)){
-        chan.echo({type: "quit", sender: sender, message: message});
-        chan.delNick(sender.nick);
-      }
+    sender.getChannels().forEach(function(chan){
+      chan.echo({type: "quit", sender: sender, message: message});
+      chan.delNick(sender.nick);
     });
   },
   "001": function(){

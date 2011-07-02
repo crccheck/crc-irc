@@ -94,7 +94,9 @@ test("JOIN", function(){
   parse_chunk(line);
   var chan = ENV.getChannelByName(channel_name);
   equal(chan.channel, channel_name, line);
-  ok(chan.hasNick('funky'));
+  ok(chan.hasNick(test_nick));
+  var user = new User(address);
+  deepEqual(user.getChannels(), [chan]);
 });
 test("PART", function(){
   var chan = new Channel(channel_name);
