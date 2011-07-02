@@ -4,6 +4,9 @@
 // what nicks you know, etc.
 
 function IRCSession(){
+  // information about me
+  this.me = '';
+
   // information about the server
   this.chantypes = '#';  // TODO read from raw 005
   this.chanmodes = 'eIbq,k,flj,CFLMPQcgimnprstz'; // TODO read from raw 005

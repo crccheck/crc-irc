@@ -17,7 +17,7 @@ function Channel(name){
   this.$topic = this.$elem.find('h2');
   this.$content = this.$elem.find('ol');
   this.$input = this.$elem.find('input:first').change(function(){
-    self.echo({type: 'privmsg', sender: 'me', message: this.value});  // fake privmsg
+    self.echo({type: 'privmsg', sender: ENV.me || 'me', message: this.value});  // fake privmsg
     socket.json.send({action:'raw', message:"PRIVMSG " + self.channel + " " + this.value});
     this.value = '';
   });

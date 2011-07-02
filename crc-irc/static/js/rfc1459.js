@@ -7,9 +7,14 @@ var RFC1459 = {
     if (!chan) {
       chan = new Channel(this.args);
     }
-    var sender = (new User(this.source));
+    var sender = new User(this.source);
     chan.addNick(sender.nick);
     chan.echo({type: this.type, sender: sender});
+
+    if (!ENV.me && ENV.me_nick && sender.nick == ENV.me_nick) {
+      delete ENV.me_nick;
+      ENV.me = sender;
+    }
   },
   "MODE": implementlater,
   "PART": function(){
@@ -46,7 +51,8 @@ var RFC1459 = {
   },
   "001": function(){
     $('#connect-form')[0].reset();
-    implementlater.call(this);
+    ENV.me_nick = this.target;
+    notimplemented.call(this);
   },
   "250": implementlater,  // Highest connection count: ...
   "251": implementlater,  // There are ... users and ... invisible on ..servers
