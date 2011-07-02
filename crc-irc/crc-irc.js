@@ -78,7 +78,7 @@ function main(httpServer){
     ]);
   });
   io.configure ('development', function(){
-    io.set('log level', 2);
+    io.set('log level', 1);
     io.set('transports', ['websocket']);
   });
   io.sockets.on('connection', function(socket){

@@ -1,4 +1,4 @@
-$('#connect > form').submit(function(){
+$('#connect-form').submit(function(){
   var options = {
     action: "connect",
     host: $('#connect-host').val(),
