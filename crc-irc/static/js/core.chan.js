@@ -43,16 +43,18 @@ Channel.prototype.message = function(li){
   }
 };
 
-// pubmsg(data)
+// echo(data)
 // data -> {sender: User,
 //          message: String,
 //          type: String}
+// type is ['privmsg', 'join', 'part']
 Channel.prototype.echo = function(data){
-  data.type = data.type || "";
-  var line = $('<li class="' + data.type.toLowerCase() + '"/>').html(
+  data.type = data.type.toLowerCase() || "";
+  var line = $('<li class="' + data.type + '"/>').html(
     '<span class="nick">' + data.sender + '</span>' +
     '<span class="message"></span>');
   line.children('.message').text(data.message);
+  $(CANVAS).trigger(data.type, $(line));  //trigger events before attaching to DOM
   this.message(line);
 };
 

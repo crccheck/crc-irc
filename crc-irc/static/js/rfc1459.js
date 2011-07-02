@@ -9,7 +9,7 @@ var RFC1459 = {
     }
     var sender = new User(this.source);
     chan.addNick(sender.nick);
-    chan.echo({type: this.type, sender: sender});
+    chan.echo({type: this.type, sender: sender, message: sender.address});
 
     if (!ENV.me && ENV.me_nick && sender.nick == ENV.me_nick) {
       delete ENV.me_nick;

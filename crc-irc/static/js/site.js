@@ -16,3 +16,4 @@ $('form').submit(false);
 
 loadPlugin('connections');
 loadPlugin('channelbar');
+loadPlugin('hilight');
