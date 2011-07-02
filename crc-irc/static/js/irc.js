@@ -1,6 +1,7 @@
 // CONFIGURATION
 var COMMAND_PREFIX = '/';
 var CANVAS = document.getElementById("pane-main");  // where the app drops elements, this is set to an unattached DOM node for testing
+var SCROLLBACK = 1000;  //how many lines to keep in the scrollback
 
 function dispatch(data){
   var dispatcher = RFC1459;

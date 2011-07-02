@@ -36,6 +36,10 @@ Channel.prototype.message = function(li){
   var now = new Date();
   li.prepend('<time datetime="' + now.strftime('%Y-%m-%dT%H:%M:%S%z') + '">' + now.strftime('%H:%M:%S') + '</time>');
   li.appendTo(this.$content);
+  var extra_lines = this.$content.children().length - SCROLLBACK;
+  if (extra_lines) {
+    this.$content.children(':lt(' + extra_lines + ')').remove();
+  }
   if (this.$content && this.$content.length) {
     this.$content[0].scrollTop = this.$content[0].scrollHeight;
   } else {
