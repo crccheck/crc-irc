@@ -46,8 +46,10 @@ body {
     }
 
 .channel {
+    overflow: hidden;
     position: relative;
     margin: 1em auto;
+    padding-bottom: 20px;   /* footer */
     width: 700px;
 }
     .channel-name {
@@ -64,7 +66,7 @@ body {
     .content {
         background: #eee;
         border: 1px solid #ccc;
-        max-height: 10em;
+        height: 10em;
         overflow-y: auto;
     }
     #status.channel input[type=text] { width: 663px; }
@@ -74,13 +76,17 @@ body {
     aside {
         float: right;
         min-height: 50px;
-        max-height: 10em;
+        height: 10em;
         overflow-y: auto;
         width: 100px;
     }
 
     #status > footer { text-align: right; }
         #status input[type=text] { float: left; }
+    footer {
+        position: absolute;
+        bottom: 0;
+    }
 
 
 /* GENERAL STYLES FOR IRC EVENTS, TYPES */
