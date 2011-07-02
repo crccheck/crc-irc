@@ -23,6 +23,7 @@ function Channel(name){
   });
   this.nicklist = [];
   this.$nicklist = this.$elem.find('aside > ul');
+  this.$input.keydown(function(e){ self.autoComplete(e); });
 
   $(CANVAS).trigger('create', this);
   ENV.addChannel(this);
@@ -138,4 +139,56 @@ Channel.prototype.toString = function(){
 // @return a serializable version of the channel
 Channel.prototype.toObject = function(){
 
+};
+
+Channel.prototype.autoComplete = function(e){
+  function advance(insertSpace){
+    target.selectionStart = target.selectionEnd;
+    if (insertSpace){
+      var before = text.substring(0, target.selectionStart);
+      var after = text.substring(target.selectionEnd);
+      target.value = before + " " + after;
+    }
+  }
+
+  function wordUnderCursor(){
+    var after = text.substring(target.selectionStart);
+    return matchText + after.split(" ")[0];
+  }
+
+  var target = e.currentTarget;
+  var text = target.value;
+  if (e.which == 9){
+    e.preventDefault();
+    var newText = '';
+    var before = text.substring(0, target.selectionStart);
+    var after = text.substring(target.selectionEnd);
+    var texts = before.split(' ');
+    var matchText = texts[texts.length - 1];
+    var matchIndex = 0;
+    if (matchText){
+      var matchTextRe = new RegExp("^" + matchText + ".", "i");
+      var matchNicks = this.nicklist.filter(function(x){ return matchTextRe.test(x); });
+      if (matchNicks.length){
+        if (target.selectionStart != target.selectionEnd){
+          if (matchNicks.length == 1){
+            advance(true);
+            return;
+          } else if ((matchIndex = matchNicks.indexOf(wordUnderCursor())) !== -1){
+            matchIndex = (matchIndex + 1) % matchNicks.length;
+          }
+        }
+        var found = matchNicks[matchIndex].substr(matchText.length);
+        newText = before + found + after;
+        target.value = newText;
+        target.select();
+        target.setSelectionRange(before.length, before.length + found.length);
+      }
+    }
+  } else if (e.which == 32){
+    if (target.selectionStart != target.selectionEnd){
+      advance();
+      return;
+    }
+  }
 };
