@@ -14,6 +14,7 @@ $('#connect-form').submit(function(){
 
 $('form').submit(false);
 
-loadPlugin('connections');
-loadPlugin('channelbar');
-loadPlugin('hilight');
+loadPlugin('connections', true);
+loadPlugin('channelbar', true);
+loadPlugin('hilight', true);
+loadPlugin('linkify');

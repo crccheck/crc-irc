@@ -114,7 +114,9 @@ function serialize(key, value){
 }
 
 // over-simplistic css/js loader
-function loadPlugin(name){
-  $('head').append('<link rel="stylesheet" href="/css/plugin.' + name + '.css" type="text/css">');
+function loadPlugin(name, css){
+  if (css){
+    $('head').append('<link rel="stylesheet" href="/css/plugin.' + name + '.css" type="text/css">');
+  }
   $.getScript('/js/plugin.' + name + '.js');
 }
