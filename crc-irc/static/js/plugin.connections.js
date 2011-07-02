@@ -61,6 +61,7 @@
     });
     connection.hash = crc32($this.serialize());
     addConnection(connection);
+    listConnections();
   });
 
   listConnections();
