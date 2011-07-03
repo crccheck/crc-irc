@@ -19,7 +19,7 @@ function Channel(name){
   if (Channel.isChannel(name)){
     this.$input.change(function(){
       self.echo({type: 'privmsg', sender: ENV.me || 'me', message: this.value});  // fake privmsg
-      socket.json.send({action:'raw', message:"PRIVMSG " + self.channel + " " + this.value});
+      commands.privmsg(self.channel, this.value);
       this.value = '';
     });
     this.$nicklist = this.$elem.find('aside > ul');

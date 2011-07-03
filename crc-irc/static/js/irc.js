@@ -37,17 +37,28 @@ function parse_chunk(lines){
   }
 }
 
-// translates mIRC style command to start a connection
-// /server host[:port] [pass]
-function server(tokens){
-  if (!tokens.length)
-    return;
-  var host_port = tokens[0].split(':');
-  var host = host_port[0];
-  var port = host_port[1] || "6667";
-  var pass = tokens[1] || '';
-  return {action:"connect", host:host, port:port, nick:$('#connect-nick').val(), pass:pass};
-}
+
+// kind of a mish mash of stuff... not very consistent
+var commands = {
+  'privmsg': function(target, message){
+    var data = {action:'raw', message:"PRIVMSG " + target + " " + message};
+    socket.json.send(data);
+  },
+
+  // translates mIRC style command to start a connection
+  // /server host[:port] [pass]
+  'server': function(tokens){
+    if (!tokens.length)
+      return;
+    var host_port = tokens[0].split(':');
+    var host = host_port[0];
+    var port = host_port[1] || "6667";
+    var pass = tokens[1] || '';
+    var data = {action:"connect", host:host, port:port, nick:$('#connect-nick').val(), pass:pass};
+    socket.json.send(data);
+  }
+};
+
 
 if (typeof io !== "undefined"){
   var socket = io.connect();
@@ -71,15 +82,19 @@ function send(line){
   var command = tokens.shift();
   if (command[0] != COMMAND_PREFIX)
     return;
-  command = command.substring(1);
+  command = command.substr(1);
 
   // if (tokens[1] == COMMAND_PREFIX), process the tokens. evaluates and replace the variables
   switch (command){
     case 'server':
-      socket.json.send(server(tokens));
+      commands.server(tokens);
       break;
-    case 'me':
+    case 'xyzzy':
       // not implemented yet. here to keep jshint from complaining
+      break;
+    default:
+      console.log('send', line.substr(1));
+      socket.json.send({action:'raw', message: line.substr(1)});
       break;
   }
 }
