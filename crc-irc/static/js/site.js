@@ -14,6 +14,7 @@ $('#connect-form').submit(function(){
 
 $('form').submit(false);
 
+loadPlugin('notify');
 loadPlugin('connections', true);
 loadPlugin('channelbar', true);
 loadPlugin('hilight', true);
