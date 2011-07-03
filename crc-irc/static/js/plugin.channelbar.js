@@ -4,7 +4,8 @@
   var MODULE_CANVAS = document.getElementById('pane-west');
 
   var $base = $('<section class="ui-channelbar"></section>').appendTo($(MODULE_CANVAS)),
-      $main = $('#pane-main');
+      $main = $('#pane-main'),
+      offset;
 
 
   function addChanToBar(chan){
@@ -18,7 +19,6 @@
         button.removeClass('closed');
         chan.$elem.prependTo($main).show();
       }
-
     });
     $base.append(button);
   }
@@ -37,8 +37,23 @@
   }
 
 
+  function updateOffset(){
+    offset = $base.offset();
+  }
+
+
   $(CANVAS).bind('create', function(e, chan){
     addChanToBar(chan);
     makeChanResizable(chan.$elem);
+    updateOffset();
+  });
+
+
+  $(window).bind('resize scroll', function(e, d){
+    var $this = $(this),
+        x = $this.scrollLeft(),
+        y = $this.scrollTop();
+    $base.toggleClass('fixed', y > offset.top);
+    $base.css('left', -x);
   });
 })();

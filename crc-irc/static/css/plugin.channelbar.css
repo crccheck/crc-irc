@@ -1,3 +1,10 @@
+.ui-channelbar.fixed {
+    position: fixed;
+    top: 0;
+    width: 110px;   /* FIXME magic number */
+    z-index: 1;
+}
+
 .ui-channelbar .button {
     background: #eee;
     border: 1px solid #AAA;
