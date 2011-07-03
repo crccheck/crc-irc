@@ -21,29 +21,12 @@
     </div>
     </section>
 
-    <section id="pane-west" class="toolbar">
+    <section id="pane-west" class="toolbar"></section>
+    <section id="pane-east" class="toolbar"></section>
+    <section id="pane-south" class="toolbar"></section>
+    <section id="pane-main"></section>
 
-    </section>
-
-    <section id="pane-east" class="toolbar">
-    </section>
-
-    <section id="pane-south" class="toolbar">
-    </section>
-
-    <section id="pane-main">
-        <section id="status" class="channel shadow">
-            <header>
-                <h1 class="channel-name">Status</h1>
-            </header>
-            <div id="status-content" class="content">
-            </div>
-            <footer>
-                <form><input type="text" name="message" placeholder="Enter text"><input type="submit" value="Send"></form>
-            </footer>
-        </section>
-    </section>
-
+    <!-- hidden iframe to send form submissions to trick the browser -->
     <iframe class="hidden" name="devnull"></iframe>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>

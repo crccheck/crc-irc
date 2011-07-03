@@ -1,32 +1,40 @@
 // Channel module
 
 function Channel(name){
-  if (!name) {
-    return;
-  }
+  name = name || 'Status';
   var self = this;
   this.channel = name;
   this.name = Channel.cleanName(name);
   if (document.getElementById(this.name)){
     return;
   }
-  this.$elem = $('<section id="' + this.name  +'" class="channel shadow">' +
-    '<header><h1 class="channel-name">'+name+'</h1><h2 class="topic"></h2></header>' +
+  this.$elem = $('<section id="' + this.name +'" class="channel shadow">' +
+    '<header><h1 class="channel-name">' + name + '</h1><h2 class="topic"></h2></header>' +
     '<aside><ul></ul></aside><ol class="content"></ol>' +
     '<footer><input type="text" placeholder="Message"></footer>').appendTo(CANVAS);
   this.$topic = this.$elem.find('h2');
   this.$content = this.$elem.find('ol');
-  this.$input = this.$elem.find('input:first').change(function(){
-    self.echo({type: 'privmsg', sender: ENV.me || 'me', message: this.value});  // fake privmsg
-    socket.json.send({action:'raw', message:"PRIVMSG " + self.channel + " " + this.value});
-    this.value = '';
-  });
-  this.nicklist = [];
-  this.$nicklist = this.$elem.find('aside > ul');
-  this.$input.keydown(function(e){ self.autoComplete(e); });
+  this.$input = this.$elem.find('input:first')
+  if (name == 'Status'){
+    this.$elem.children('aside').remove();
+    this.$input.change(function(){
+      self.echo({type: 'status', sender: '', message: this.value});
+      send(this.value);
+      this.value = '';
+    });
+  } else {
+    this.$input.change(function(){
+      self.echo({type: 'privmsg', sender: ENV.me || 'me', message: this.value});  // fake privmsg
+      socket.json.send({action:'raw', message:"PRIVMSG " + self.channel + " " + this.value});
+      this.value = '';
+    });
+    this.nicklist = [];
+    this.$nicklist = this.$elem.find('aside > ul');
+    this.$input.keydown(function(e){ self.autoComplete(e); });
+    ENV.addChannel(this);
+  }
 
   $(CANVAS).trigger('create', this);
-  ENV.addChannel(this);
 }
 
 // ------------------------ API -----------------------
@@ -120,7 +128,7 @@ Channel.prototype.addNicks = function(nickArray){
 // @return a standardized version of the channel name
 Channel.cleanName = function(s){
   // strip channel prefix and force lower case
-  return s.substr(1).toLowerCase();
+  return s.replace(/^(#)/, '').toLowerCase();
 };
 
 // isChannel(String)

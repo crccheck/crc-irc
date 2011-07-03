@@ -62,6 +62,14 @@ test("serialize then deserialize", function(){
   localStorage.clear('test');
 });
 
+
+module("core.chan.js")
+test("cleanName", function(){
+  equal(Channel.cleanName('status'), 'status');
+  equal(Channel.cleanName('#status'), 'status');
+  equal(Channel.cleanName('#sTaTuS'), 'status');
+});
+
 module("parse line");
 test("typical PRIVMSG", function(){
   var line = ":Test!~name@192.168.233.62 PRIVMSG #help :okay cheers";

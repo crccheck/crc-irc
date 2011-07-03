@@ -69,8 +69,6 @@ body {
         height: 10em;
         overflow-y: auto;
     }
-    #status.channel input[type=text] { width: 663px; }
-    #status.channel input[type=submit] { width: 33px; }
     .channel input[type=text] { width: 696px; }
 
     aside {
@@ -81,8 +79,6 @@ body {
         width: 100px;
     }
 
-    #status > footer { text-align: right; }
-        #status input[type=text] { float: left; }
     footer {
         position: absolute;
         bottom: 0;

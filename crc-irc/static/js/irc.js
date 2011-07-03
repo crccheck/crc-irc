@@ -84,10 +84,7 @@ function send(line){
   }
 }
 
-$('#status form').submit(function(){
-  var input = $(this).find('input:first');
-  var message = input.val();
-  input.val('');
-  send(message);
-  return false;
+
+$(document).ready(function(){
+  new Channel();  // make status window, delay to make sure the plugin is loaded
 });

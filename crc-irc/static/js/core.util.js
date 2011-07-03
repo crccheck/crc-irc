@@ -113,10 +113,19 @@ function serialize(key, value){
   localStorage.setItem(key, JSON.stringify(value));
 }
 
+
 // over-simplistic css/js loader
+$.holdReady(true);
+var _loadPlugin = 0;  // keep track of how many scripts to load, don't fire document.ready until they're all loaded
 function loadPlugin(name, css){
+  ++_loadPlugin;
   if (css){
     $('head').append('<link rel="stylesheet" href="/css/plugin.' + name + '.css" type="text/css">');
   }
-  $.getScript('/js/plugin.' + name + '.js');
+  $.getScript('/js/plugin.' + name + '.js', function(){
+    --_loadPlugin;
+    if (_loadPlugin == 0){
+      $.holdReady(false);
+    }
+  });
 }
