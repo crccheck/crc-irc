@@ -37,10 +37,8 @@ var RFC1459 = {
   "PRIVMSG": function(){
     var sender = new User(this.source);
     var chanName = this.target;
-    var chan = ENV.getChannelByName(chanName);
-    if (chan){
-      chan.echo({type: this.type, sender: sender, message: this.args});
-    }
+    var chan = ENV.getChannelByName(chanName) || ENV.statusWindow;
+    chan.echo({type: this.type, sender: sender, message: this.args});
   },
   "TOPIC": function(){
     var sender = new User(this.source);

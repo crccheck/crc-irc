@@ -143,7 +143,14 @@ test("PART", function(){
   parse_chunk(line);
   ok(!chan.hasNick(test_nick), line);
 });
-test("PRIVMSG", function(){
+test("PRIVMSG user gets sent to status", function(){
+  var chan = new Channel('#foobar');
+  var user = new User(address);
+  var line = ":" + address + " PRIVMSG foobar :" + message;
+  parse_chunk(line);
+  deepEqual(ENV.statusWindow.get_message(0), {nick: user.nick, message: message}, line);
+});
+test("PRIVMSG channel", function(){
   var chan = new Channel(channel_name);
   var user = new User(address);
   var line = ":" + address + " PRIVMSG " + channel_name + " :" + message;
