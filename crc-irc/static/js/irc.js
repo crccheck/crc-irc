@@ -86,5 +86,5 @@ function send(line){
 
 
 $(document).ready(function(){
-  new Channel();  // make status window, delay to make sure the plugin is loaded
+  ENV.statusWindow = new Channel();  // make status window, delay to make sure the plugin is loaded
 });

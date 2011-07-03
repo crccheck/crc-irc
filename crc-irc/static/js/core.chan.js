@@ -15,23 +15,23 @@ function Channel(name){
   this.$topic = this.$elem.find('h2');
   this.$content = this.$elem.find('ol');
   this.$input = this.$elem.find('input:first');
-  if (name == 'Status'){
+  this.nicklist = [];
+  if (Channel.isChannel(name)){
+    this.$input.change(function(){
+      self.echo({type: 'privmsg', sender: ENV.me || 'me', message: this.value});  // fake privmsg
+      socket.json.send({action:'raw', message:"PRIVMSG " + self.channel + " " + this.value});
+      this.value = '';
+    });
+    this.$nicklist = this.$elem.find('aside > ul');
+    this.$input.keydown(function(e){ self.autoComplete(e); });
+    ENV.addChannel(this);
+  } else {
     this.$elem.children('aside').remove();
     this.$input.change(function(){
       self.echo({type: 'status', sender: '', message: this.value});
       send(this.value);
       this.value = '';
     });
-  } else {
-    this.$input.change(function(){
-      self.echo({type: 'privmsg', sender: ENV.me || 'me', message: this.value});  // fake privmsg
-      socket.json.send({action:'raw', message:"PRIVMSG " + self.channel + " " + this.value});
-      this.value = '';
-    });
-    this.nicklist = [];
-    this.$nicklist = this.$elem.find('aside > ul');
-    this.$input.keydown(function(e){ self.autoComplete(e); });
-    ENV.addChannel(this);
   }
 
   $(CANVAS).trigger('create', this);
@@ -127,8 +127,7 @@ Channel.prototype.addNicks = function(nickArray){
 // cleanName(String)
 // @return a standardized version of the channel name
 Channel.cleanName = function(s){
-  // strip channel prefix and force lower case
-  return s.replace(/^(#)/, '').toLowerCase();
+  return s.toLowerCase();
 };
 
 // isChannel(String)
