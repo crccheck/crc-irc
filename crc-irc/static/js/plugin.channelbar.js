@@ -40,14 +40,18 @@
   }
 
 
-  function makeChanResizable($chan){
-    $chan.resizable({
+  function makeChanResizable(chan){
+    chan._channelbar.setHeight = function(newHeight){
+      var elems = chan.$elem.children('aside, ol');
+      elems.height(newHeight - chan.$elem.children('header').outerHeight());
+      state[chan.channel].height = newHeight;
+      saveState();
+    };
+    chan.$elem.resizable({
       handles: 's',
       minHeight: 35,
       stop: function(e, ui){
-        var children = ui.element.children();
-        var elems = ui.element.children('aside, ol');
-        elems.height(ui.size.height - children.filter('header').outerHeight());
+        chan._channelbar.setHeight(ui.size.height);
       }
     });
   }
@@ -60,18 +64,21 @@
 
   $(CANVAS).bind('create', function(e, chan){
     addChanToBar(chan);
-    makeChanResizable(chan.$elem);
+    makeChanResizable(chan);
     if (!state[chan.channel]) {
       state[chan.channel] = {};
     }
     if (state[chan.channel].visible === false) {
       chan._channelbar.hide();
     }
+    if (state[chan.channel].height) {
+      chan._channelbar.setHeight(state[chan.channel].height);
+    }
     updateOffset();
   });
 
 
-  $(window).bind('resize scroll', function(e, d){
+  $(window).bind('resize scroll', function(){
     var $this = $(this),
         x = $this.scrollLeft(),
         y = $this.scrollTop();
