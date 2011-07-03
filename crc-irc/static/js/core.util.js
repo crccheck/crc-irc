@@ -124,7 +124,7 @@ function loadPlugin(name, css){
   }
   $.getScript('/js/plugin.' + name + '.js', function(){
     --_loadPlugin;
-    if (_loadPlugin == 0){
+    if (_loadPlugin === 0){
       $.holdReady(false);
     }
   });

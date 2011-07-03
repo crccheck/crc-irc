@@ -14,7 +14,7 @@ function Channel(name){
     '<footer><input type="text" placeholder="Message"></footer>').appendTo(CANVAS);
   this.$topic = this.$elem.find('h2');
   this.$content = this.$elem.find('ol');
-  this.$input = this.$elem.find('input:first')
+  this.$input = this.$elem.find('input:first');
   if (name == 'Status'){
     this.$elem.children('aside').remove();
     this.$input.change(function(){

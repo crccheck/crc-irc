@@ -63,7 +63,7 @@ test("serialize then deserialize", function(){
 });
 
 
-module("core.chan.js")
+module("core.chan.js");
 test("cleanName", function(){
   equal(Channel.cleanName('status'), 'status');
   equal(Channel.cleanName('#status'), 'status');
