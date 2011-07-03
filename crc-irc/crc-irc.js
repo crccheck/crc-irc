@@ -48,12 +48,14 @@ Connection.prototype.connect = function(options){
   this.connectOptions = options;
   this.socket.connect(options.port, options.host);
   this.socket.on('connect', function(){
-    self.raw('NICK ' + options.nick);
-    // TODO figure out this syntax
-    self.raw('USER ' + options.nick + " 0 * :" + options.name);
+    //PASS <password>
     if (options.pass) {
       self.raw('PASS ' + options.pass);
     }
+    //NICK <nickname> [<hopcount>]
+    self.raw('NICK ' + options.nick);
+    //USER <username> <hostname> <servername> <realname>
+    self.raw('USER ' + options.nick + " 0 * :" + options.name);
   });
 };
 
