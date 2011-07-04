@@ -5,14 +5,25 @@ function Channel(name){
   var self = this;
   this.channel = name;
   this.name = Channel.cleanName(name);
+  this.unread = 0;
   if (document.getElementById(this.name)){
     return;
   }
   this.$elem = $('<section id="' + this.name +'" class="channel shadow">' +
-    '<header><h1 class="channel-name">' + name + '</h1><h2 class="topic"></h2></header>' +
+    '<header><h1 class="channel-name">' + name + '</h1><h2 class="topic"></h2>' +
+    '<h3></h3></header>' +
     '<aside><ul></ul></aside><ol class="content"></ol>' +
-    '<footer><input type="text" placeholder="Message"></footer>').appendTo(CANVAS);
+    '<footer><input type="text" placeholder="Message"></footer>').appendTo(CANVAS)
+    .click(function(){
+      self.setUnread(0);
+      self.$elem.addClass('active');
+      self.$elem.siblings('.active').removeClass('active');
+      self.$elem.trigger('active', self);
+    });
   this.$topic = this.$elem.find('h2');
+  this.$info = this.$elem.find('h3').click(function(){
+    self.$content.scrollTop(self.$content.children().eq(-self.unread).offset().top);
+  });
   this.$content = this.$elem.find('ol');
   this.$input = this.$elem.find('input:first');
   this.nicklist = [];
@@ -49,6 +60,10 @@ Channel.prototype.message = function(li){
   if (extra_lines) {
     this.$content.children(':lt(' + extra_lines + ')').remove();
   }
+  this.scrollDown();
+};
+
+Channel.prototype.scrollDown = function(){
   if (this.$content && this.$content.length) {
     this.$content[0].scrollTop = this.$content[0].scrollHeight;
   } else {
@@ -67,8 +82,27 @@ Channel.prototype.echo = function(data){
     '<span class="nick">' + data.sender + '</span>' +
     '<span class="message"></span>');
   line.children('.message').text(data.message);
-  $(CANVAS).trigger(data.type, $(line));  //trigger events before attaching to DOM
+  if (!this.$elem.hasClass('active')) {
+    this.setUnread();
+  }
+  $(CANVAS).trigger(data.type, [$(line), data, this]);  //trigger events before attaching to DOM
   this.message(line);
+};
+
+// setUnread([number])
+// if number is sent, set the number of unread, otherwise increment
+Channel.prototype.setUnread = function(num){
+  if (isNaN(num)) {
+    ++this.unread;
+  } else {
+    this.unread = num;
+  }
+  this.$info.text(this.unread);
+  if (this.unread && this.$info.is(':hidden')){
+    this.$info.slideDown();
+  } else if (this.unread === 0 && this.$info.is(':visible')){
+    this.$info.slideUp();
+  }
 };
 
 // retrieve the i-th message in reverse chronological order, 0-indexed

@@ -46,11 +46,17 @@ body {
     }
 
 .channel {
+    background: #EEE;
+    color: #666;
     overflow: hidden;
     position: relative;
     margin: 1em auto;
     padding-bottom: 20px;   /* footer */
     width: 700px;
+}
+.channel.active {
+    background: transparent;
+    color: #222;
 }
     .channel-name {
         display: inline;
@@ -62,9 +68,16 @@ body {
         display: inline;
         margin-left: 0.5em;
     }
+    h3 {
+        background: #FFC;
+        border-color: #CC7;
+        border-style: solid;
+        border-width: 1px 0 1px 0;
+        display: none;
+    }
 
     .content {
-        background: #eee;
+        background: #EEE;
         border: 1px solid #ccc;
         height: 10em;
         overflow-y: auto;

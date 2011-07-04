@@ -21,3 +21,10 @@
     .ui-channelbar .closed {
         color: #aaa;
     }
+
+.ui-channelbar .button > .unread {
+    color: #337;
+    float: right;
+    font-weight: bold;
+    font-size: 0.8em;
+}

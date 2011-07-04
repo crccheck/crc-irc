@@ -16,7 +16,7 @@
 
   function addChanToBar(chan){
     chan._channelbar = {};
-    var button = $('<div class="button">'+chan.channel+'</div>');
+    var button = $('<div class="button">'+chan.channel+'<span class="unread"></span></div>');
     chan._channelbar.button = button;
     chan._channelbar.hide = function(){
       chan.$elem.hide();
@@ -75,6 +75,15 @@
       chan._channelbar.setHeight(state[chan.channel].height);
     }
     updateOffset();
+  });
+
+
+  $(CANVAS).bind('privmsg', function(e, line, data, chan){
+    chan._channelbar.button.children('.unread').html(chan.unread || '');
+  });
+
+  $(CANVAS).bind('active', function(e, chan){
+    chan._channelbar.button.children('.unread').html('');
   });
 
 
