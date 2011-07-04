@@ -19,3 +19,4 @@ loadPlugin('connections', true);
 loadPlugin('channelbar', true);
 loadPlugin('hilight', true);
 loadPlugin('linkify');
+loadPlugin('stylin', true);

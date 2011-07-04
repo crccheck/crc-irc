@@ -9,7 +9,7 @@
     if (ENV.me){
       var re = new RegExp("\\b" + ENV.me.nick + "\\b", "ig");
       if (re.test(text)){
-        notifications.create(text)
+        notifications.create(text);
         line.addClass('mark');
       }
     }
