@@ -119,7 +119,12 @@ Channel.prototype.get_message = function(i){
 // setTopic(String)
 Channel.prototype.setTopic = function(s){
   this.topic = s;
-  this.$topic.text(s);
+  if (linkify) {
+    s = s.replace(/</g, '&lt;');
+    this.$topic.html(linkify.link(s));  // TODO sanitize
+  } else {
+    this.$topic.text(s);
+  }
 };
 
 Channel.prototype.hasNick = function(nick){
