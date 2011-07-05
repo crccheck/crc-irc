@@ -8,7 +8,7 @@ $('#connect-form').submit(function(){
     name: $('#connect-name').val()
   };
   // TODO validate
-  ENV.connect(options);
+  commands.send(options);
   //return false;
 });
 

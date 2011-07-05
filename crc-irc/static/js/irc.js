@@ -40,14 +40,18 @@ function parse_chunk(lines){
 
 // kind of a mish mash of stuff... not very consistent
 var commands = {
-  'privmsg': function(target, message){
-    var data = {action:'raw', message:"PRIVMSG " + target + " " + message};
+  send: function(data){
     socket.json.send(data);
+  },
+
+  privmsg: function(target, message){
+    var data = {action:'raw', message:"PRIVMSG " + target + " " + message};
+    this.send(data);
   },
 
   // translates mIRC style command to start a connection
   // /server host[:port] [pass]
-  'server': function(tokens){
+  server: function(tokens){
     if (!tokens.length)
       return;
     var host_port = tokens[0].split(':');
@@ -55,7 +59,7 @@ var commands = {
     var port = host_port[1] || "6667";
     var pass = tokens[1] || '';
     var data = {action:"connect", host:host, port:port, nick:$('#connect-nick').val(), pass:pass};
-    socket.json.send(data);
+    this.send(data);
   }
 };
 

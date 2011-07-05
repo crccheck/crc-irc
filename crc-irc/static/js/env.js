@@ -26,13 +26,6 @@ function IRCSession(){
   this.addUser = function(user){
     this.users[user.address] = user;
   };
-  // other stuff
-
-  // send message to node.js to connect to a server
-  // options = {action: "connect", host: String, port: Int, nick: String, pass: String}
-  this.connect = function(options){
-    socket.json.send(options);
-  };
 
   // throw away previous state
   this.reset = function(){
