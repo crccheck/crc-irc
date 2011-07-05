@@ -8,7 +8,7 @@ var linkify = function(){
   var re = /https?:[\S]+/ig;  //dirt simple, we don't care if this url works or not
 
   function link(s){
-    return s.replace(re, '<a href="$&">$&</a>');
+    return s.replace(re, '<a href="$&" target="_blank">$&</a>');
   }
 
   function process(line){
