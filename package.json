@@ -1,7 +1,7 @@
 {
   "name": "crc-irc",
   "description": "A JavaScript based IRC client with a thin node.js proxy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/crccheck/crc-irc",
   "repository": {
     "type": "git",
