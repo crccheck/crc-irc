@@ -5,25 +5,25 @@
   var DEBOUNCE = false;
   var DEBOUNCE_INTERVAL = 1;
 
-  function process(line){
+  function process(line, text){
     if (ENV.me){
       var re = new RegExp("\\b" + ENV.me.nick + "\\b", "ig");
-      line = $(line);
-      if (re.test(line.children('span.message').html())){
+      if (re.test(text)){
+        notifications.create(text)
         line.addClass('mark');
       }
     }
   }
 
   var timer;
-  $(CANVAS).bind('privmsg', function(e, data){
+  $(CANVAS).bind('privmsg', function(e, line, data, chan){
     if (DEBOUNCE){
       if (timer){ clearInterval(timer); }
       timer = setTimeout(function(){
-        process(data);
+        process(line, data.message);
       });
     } else {
-      process(data);
+      process(line, data.message);
     }
   });
 })();
