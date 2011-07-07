@@ -73,7 +73,7 @@ if (typeof io !== "undefined"){
 } else {
   // stub socket for testing
   var socket = {'send': function(s){ console.log("socket.json.send(" + JSON.stringify(s) + ")"); }};
-  CANVAS = $('<div/>')[0];
+  CANVAS = document.getElementById('qunit-fixture');
 }
 
 // interpret a line from the input and send to IRC

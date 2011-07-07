@@ -39,7 +39,7 @@
     } else {
       $modal.slideDown();
     }
-  }).appendTo(MODULE_CANVAS).click();
+  }).appendTo(MODULE_CANVAS);
 
 
 })();
