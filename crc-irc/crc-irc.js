@@ -20,6 +20,17 @@ function Connection(webSocket) {
   this.socket = new net.Socket();
   this.socket.setEncoding('ascii');
   this.socket.setNoDelay();
+  this.socket.on('connect', function(){
+    //PASS <password>
+    var pass = self.connectOptions.pass;
+    if (pass){
+      self.raw('PASS ' + pass);
+    }
+    //NICK <nickname> [<hopcount>]
+    self.raw('NICK ' + self.connectOptions.nick);
+    //USER <username> <hostname> <servername> <realname>
+    self.raw('USER ' + self.connectOptions.nick + " 0 * :" + self.connectOptions.name);
+  });
   this.socket.on('data', function(data){
     var match = data.match(/^PING :(.+)\s*$/);
     if (match){
@@ -46,17 +57,17 @@ Connection.prototype.raw = function(data){
 Connection.prototype.connect = function(options){
   var self = this;
   this.connectOptions = options;
+  if (this.socketStatus) {
+    this.quit();
+    this.socketStatus = false;
+  }
   this.socket.connect(options.port, options.host);
-  this.socket.on('connect', function(){
-    //PASS <password>
-    if (options.pass) {
-      self.raw('PASS ' + options.pass);
-    }
-    //NICK <nickname> [<hopcount>]
-    self.raw('NICK ' + options.nick);
-    //USER <username> <hostname> <servername> <realname>
-    self.raw('USER ' + options.nick + " 0 * :" + options.name);
-  });
+  this.socketStatus = options.host;
+};
+
+Connection.prototype.quit = function(){
+  this.raw('QUIT');
+  this.destroy();
 };
 
 Connection.prototype.destroy = function(){
