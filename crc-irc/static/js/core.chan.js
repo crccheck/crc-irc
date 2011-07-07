@@ -78,7 +78,7 @@ Channel.prototype.scrollDown = function(){
 // type is ['privmsg', 'join', 'part']
 Channel.prototype.echo = function(data){
   data.type = data.type.toLowerCase() || "";
-  var line = $('<li class="' + data.type + '"/>').html(
+  var line = $('<li class="' + data.type + '" sender="' + data.sender + '"/>').html(
     '<span class="nick">' + data.sender + '</span>' +
     '<span class="message"></span>');
   line.children('.message').text(data.message);
