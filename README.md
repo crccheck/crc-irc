@@ -36,6 +36,14 @@ Run the server (you may need to sudo)
 
     node server.js
 
+In development mode:
+
+    NODE_ENV=development node server.js
+
+And production:
+
+    NODE_ENV=production node server.js
+
 To connect to a server, fill out the form up top and hit `connect`.
 Or you can just fill in the nick and use mIRC-style command in the status: `/server host:port [pass]`
 
