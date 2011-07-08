@@ -29,19 +29,23 @@ function Channel(name){
   this.$input = this.$elem.find('input:first');
   this.nicklist = [];
   if (Channel.isChannel(name)){
-    this.$input.change(function(){
-      self.echo({type: 'privmsg', sender: ENV.me || 'me', message: this.value});  // fake privmsg
-      commands.privmsg(self.channel, this.value);
-      this.value = '';
+    this.$input.keyup(function(e){
+      if (e.which == 13){
+        self.echo({type: 'privmsg', sender: ENV.me || 'me', message: this.value});  // fake privmsg
+        commands.privmsg(self.channel, this.value);
+        this.value = '';
+      }
     });
     this.$nicklist = this.$elem.find('aside > ul');
     this.$input.keydown(function(e){ self.autoComplete(e); });
   } else {
     this.$elem.children('aside').remove();
-    this.$input.change(function(){
-      self.echo({type: 'status', sender: '', message: this.value});
-      send(this.value);
-      this.value = '';
+    this.$input.keyup(function(e){
+      if (e.which == 13){
+        self.echo({type: 'status', sender: '', message: this.value});
+        send(this.value);
+        this.value = '';
+      }
     });
   }
 
