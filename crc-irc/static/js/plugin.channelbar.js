@@ -23,22 +23,28 @@
       button.addClass('closed');
     };
     chan._channelbar.show = function(){
+      chan.$elem.show();
       button.removeClass('closed');
-      chan.$elem.prependTo($main).show();
     };
     button.click(function(e){
-      var visible = chan.$elem.is(':visible');
-      state[chan.channel].visible = !visible;
-      saveState();
-      if (visible) {
-        chan._channelbar.hide();
-      } else {
+      if (chan.$elem.is(':hidden')) {
         chan._channelbar.show();
+        state[chan.channel].visible = true;
+        saveState();
       }
+      chan.focus();
     });
     $base.append(button);
   }
 
+  function addControlsToChan(chan){
+    $('<button>hide</button>').click(function(){
+      chan._channelbar.hide();
+      state[chan.channel].visible = false;
+      saveState();
+    }).
+    appendTo(chan.$nav);
+  }
 
   function makeChanResizable(chan){
     chan._channelbar.setHeight = function(newHeight){
@@ -64,6 +70,7 @@
 
   $(CANVAS).bind('create', function(e, chan){
     addChanToBar(chan);
+    addControlsToChan(chan);
     makeChanResizable(chan);
     if (!state[chan.channel]) {
       state[chan.channel] = {};

@@ -11,19 +11,20 @@ function Channel(name){
   }
   this.$elem = $('<section id="' + this.name +'" class="channel shadow">' +
     '<header><h1 class="channel-name">' + name + '</h1><h2 class="topic"></h2>' +
-    '<h3></h3></header>' +
+    '<h3></h3><nav></nav></header>' +
     '<aside><ul></ul></aside><ol class="content"></ol>' +
     '<footer><input type="text" placeholder="Message"></footer>').appendTo(CANVAS)
-    .click(function(){
-      self.setUnread(0);
-      self.$elem.addClass('active');
-      self.$elem.siblings('.active').removeClass('active');
-      self.$elem.trigger('active', self);
+    .click(function(e){
+      self.focus(e);
+    })
+    .blur(function(e){
+      self.blur(e);
     });
   this.$topic = this.$elem.find('h2');
   this.$info = this.$elem.find('h3').click(function(){
     self.$content.scrollTop(self.$content.children().eq(-self.unread).offset().top);
   });
+  this.$nav = this.$elem.find('nav');
   this.$content = this.$elem.find('ol');
   this.$input = this.$elem.find('input:first');
   this.nicklist = [];
@@ -35,7 +36,6 @@ function Channel(name){
     });
     this.$nicklist = this.$elem.find('aside > ul');
     this.$input.keydown(function(e){ self.autoComplete(e); });
-    ENV.addChannel(this);
   } else {
     this.$elem.children('aside').remove();
     this.$input.change(function(){
@@ -45,6 +45,7 @@ function Channel(name){
     });
   }
 
+  ENV.addChannel(this);
   $(CANVAS).trigger('create', this);
 }
 
@@ -160,7 +161,20 @@ Channel.prototype.addNicks = function(nickArray){
   });
 };
 
+Channel.prototype.focus = function(e){
+  if (this.$elem.hasClass('active')){ return; }
+  this.setUnread(0);
+  this.$elem.addClass('active');
+  this.$elem.siblings('.active').removeClass('active');
+  this.$elem.trigger('active', this);
+  if (!e || e.target != this.$input[0]) {
+    this.$input[0].focus();
+  }
+};
 
+Channel.prototype.blur = function(e){
+  this.$elem.removeClass('active');
+};
 // -------------------- HELPERS --------------------
 
 // cleanName(String)
@@ -244,3 +258,14 @@ Channel.prototype.autoComplete = function(e){
     }
   }
 };
+
+$(function(){
+  // we can't get a blur event on the channel $elem, so fake it by detecting clicks on the CANVAS
+  $(CANVAS).click(function(e){
+    var active;
+    if (e.target == CANVAS && (active = $('section.channel.active')).length){
+      var chan = ENV.getChannelByName(active[0].id);
+      if (chan) { chan.$elem.trigger('blur'); }
+    }
+  });
+});

@@ -28,3 +28,13 @@
     font-weight: bold;
     font-size: 0.8em;
 }
+
+.channel nav {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.channel:hover nav {
+    display: block;
+}
