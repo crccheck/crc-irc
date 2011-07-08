@@ -188,12 +188,18 @@ Channel.prototype.toObject = function(){
 };
 
 Channel.prototype.autoComplete = function(e){
+  // advance the cursor, optionally insert a space after the word under the cursor
+  // if inserting a space, also add a colon if this is the first word
   function advance(insertSpace){
     target.selectionStart = target.selectionEnd;
     if (insertSpace){
       var before = text.substring(0, target.selectionStart);
       var after = text.substring(target.selectionEnd);
-      target.value = before + " " + after;
+      if (/\s/.test(before)){
+        target.value = before + " " + after;
+      } else {
+        target.value = before + ": " + after;
+      }
     }
   }
 
