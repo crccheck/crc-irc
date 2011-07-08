@@ -13,10 +13,23 @@
       $main = $('#pane-main'),
       offset;
 
+  $base.sortable({
+    containment: 'parent',
+    update: function(e, ui){
+      var button = ui.item;
+      var chan = button.data('channel');
+      if (button.next().length){
+        chan.$elem.insertBefore(button.next().data('channel').$elem);
+      } else {
+        chan.$elem.appendTo(CANVAS);
+      }
+    }
+  });
 
   function addChanToBar(chan){
     chan._channelbar = {};
-    var button = $('<div class="button">'+chan.channel+'<span class="unread"></span></div>');
+    var button = $('<div class="button">'+chan.channel+'<span class="unread"></span></div>')
+      .data('channel', chan);
     chan._channelbar.button = button;
     chan._channelbar.hide = function(){
       chan.$elem.hide();
@@ -34,7 +47,7 @@
       }
       chan.focus();
     });
-    $base.append(button);
+    $base.append(button).sortable("refresh");
   }
 
   function addControlsToChan(chan){
