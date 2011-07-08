@@ -1,21 +1,11 @@
 #stylin {
-    left: 0;
-    margin: 0 auto;
-    position: absolute;
-    right: 0;
-    width: 600px;
-}
-#stylin > h2 {
-    background: #EEF;
-    border: 1px solid black;
-    border-bottom: 0;
-    cursor: move;
-    font-weight: bold;
-    padding: 1px;
+    padding: 0;
+    overflow: hidden;
+    background: #EFE;
 }
 #stylin > textarea {
-    background: #EFE;
+    background: transparent;
+    border: 0;
     display: block;
-    height: 200px;
-    width: 598px;
+    outline: 0;
 }

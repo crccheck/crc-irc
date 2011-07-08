@@ -5,39 +5,49 @@
   var style = localStorage[MODULE_KEY] || '';
   var $style = $('<style type="text/css">' + style + '</style>').appendTo($('head'));
 
-  var $modal = $('<div id="stylin" style="display: none;">' +
-    '<h2>CSS</h2>' +
+  var $modal = $('<div id="stylin">' +
     '<textarea>' + style + '</textarea>' +
-    '<button class="apply">Apply</button>' +
-    '<button class="close">Close</button>' +
     '</div>')
-    .draggable({handle: "h2"})
     .appendTo(document.body);
-
-  function save(){
-    style = $text.val();
-    $style.html(style);
-    localStorage[MODULE_KEY] = style;
-    var feedback = $('<span>Applying and Saving...</span>');
-    feedback.appendTo($modal);
-    setTimeout(function(){ feedback.fadeOut(1000); }, 100);
-  }
   var $text = $modal.children('textarea').keydown(function(e){
     if (e.which == 9){
       save();
       e.preventDefault();
     }
   });
-  $modal.children('.apply').click(save);
-  $modal.children('.close').click(function(){
-    $modal.slideUp();
-  });
 
-  var $butt = $('<button>CSS</button>').click(function(){
-    if ($modal.is(':visible')){
-      $modal.slideUp();
+  function resize(e, ui){
+    $text.width($modal.width() - 2);
+    $text.height($modal.height() - 2);
+  }
+  function save(){
+    style = $text.val();
+    $style.html(style);
+    localStorage[MODULE_KEY] = style;
+    var feedback = $('<span>Applying and Saving...</span>');
+    feedback.appendTo($modal.nextAll('.ui-dialog-buttonpane'));
+    setTimeout(function(){ feedback.fadeOut(1000); }, 100);
+  }
+  $modal.dialog({
+      autoOpen: false,
+      hide: 'slide',
+      show: 'slide',
+      title: "CSS",
+      height: 270,
+      width: 630,
+      open: resize,
+      resize: resize,
+      buttons: [
+        { text: "Apply",
+          click: save }
+      ]
+    });
+
+  var $butt = $('<button>Edit CSS</button>').click(function(){
+    if ($modal.dialog('isOpen')){
+      $modal.dialog('close');
     } else {
-      $modal.slideDown();
+      $modal.dialog('open');
     }
   }).appendTo(MODULE_CANVAS);
 
