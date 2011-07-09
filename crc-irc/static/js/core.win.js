@@ -33,8 +33,12 @@ function Window(name){
     this.$elem.attr('chan', Window.stripPrefix(this.name));
     this.$input.keyup(function(e){
       if (e.which == 13){
-        self.echo({type: 'privmsg', sender: ENV.me || 'me', message: this.value});  // fake privmsg
-        commands.privmsg(self.raw_name, this.value);
+        if (this.value[0] == COMMAND_PREFIX){
+          var match = this.value.match(/^\/(\w+)\s+(.+)/);
+          commands.dispatch(match[1], self.raw_name, match[2]);
+        } else {
+          commands.privmsg(self.raw_name, this.value);
+        }
         this.value = '';
       }
     });

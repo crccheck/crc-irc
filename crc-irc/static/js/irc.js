@@ -39,14 +39,29 @@ function parse_chunk(lines){
 
 
 // kind of a mish mash of stuff... not very consistent
+// TODO distinguish between commands that need a target vs those that assume a target
 var commands = {
   send: function(data){
-    socket.json.send(data);
+    return socket.json.send(data);
   },
 
   privmsg: function(target, message){
-    var data = {action:'raw', message:"PRIVMSG " + target + " " + message};
-    this.send(data);
+    var win = ENV.getWindowByName(target);
+    if (win) {
+      win.echo({type: 'privmsg', sender: ENV.me, message: message});
+    }
+    var data = {action:'raw', message:"PRIVMSG " + target + " :" + message};
+    return this.send(data);
+  },
+
+  describe: function(target, message){
+    var win = ENV.getWindowByName(target);
+    if (win) {
+      win.echo({type: 'action', sender: ENV.me, message: " " + message});
+    }
+    message = "\u0001ACTION " + message + "\u0001";
+    var data = {action: 'raw', message:"PRIVMSG " + target + " :" + message};
+    return this.send(data);
   },
 
   // translates mIRC style command to start a connection
@@ -60,8 +75,21 @@ var commands = {
     var pass = tokens[1] || '';
     var data = {action:"connect", host:host, port:port, nick:$('#connect-nick').val(), pass:pass};
     this.send(data);
+  },
+
+  dispatch: function(command, target, message){
+    if (this[command]) {
+      return this[command](target, message);
+    } else {
+      console.log("COMMAND NOT FOUND:", command, target, message);
+      return false;
+    }
   }
 };
+
+// command aliases
+commands.me = commands.describe;
+commands.msg = commands.privmsg;
 
 
 if (typeof io !== "undefined"){
