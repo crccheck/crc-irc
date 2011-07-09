@@ -28,7 +28,7 @@
 
   function addChanToBar(chan){
     chan._channelbar = {};
-    var button = $('<div class="button">'+chan.channel+'<span class="unread"></span></div>')
+    var button = $('<div class="button">'+chan.raw_name+'<span class="unread"></span></div>')
       .data('channel', chan);
     chan._channelbar.button = button;
     chan._channelbar.hide = function(){
@@ -42,7 +42,7 @@
     button.click(function(e){
       if (chan.$elem.is(':hidden')) {
         chan._channelbar.show();
-        state[chan.channel].visible = true;
+        state[chan.raw_name].visible = true;
         saveState();
       }
       chan.focus();
@@ -53,7 +53,7 @@
   function addControlsToChan(chan){
     $('<button>hide</button>').click(function(){
       chan._channelbar.hide();
-      state[chan.channel].visible = false;
+      state[chan.raw_name].visible = false;
       saveState();
     }).
     appendTo(chan.$nav);
@@ -63,7 +63,7 @@
     chan._channelbar.setHeight = function(newHeight){
       var elems = chan.$elem.children('aside, ol');
       elems.height(newHeight - chan.$elem.children('header').outerHeight());
-      state[chan.channel].height = newHeight;
+      state[chan.raw_name].height = newHeight;
       saveState();
     };
     chan.$elem.resizable({
@@ -85,14 +85,14 @@
     addChanToBar(chan);
     addControlsToChan(chan);
     makeChanResizable(chan);
-    if (!state[chan.channel]) {
-      state[chan.channel] = {};
+    if (!state[chan.raw_name]) {
+      state[chan.raw_name] = {};
     }
-    if (state[chan.channel].visible === false) {
+    if (state[chan.raw_name].visible === false) {
       chan._channelbar.hide();
     }
-    if (state[chan.channel].height) {
-      chan._channelbar.setHeight(state[chan.channel].height);
+    if (state[chan.raw_name].height) {
+      chan._channelbar.setHeight(state[chan.raw_name].height);
     }
     updateOffset();
   });

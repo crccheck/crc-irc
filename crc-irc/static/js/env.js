@@ -15,10 +15,10 @@ function IRCSession(){
   this.network = 'unknown network'; // TODO
   this.server = ''; // TODO
 
-  // information about your channels
-  this.channels = {};
-  this.addChannel = function(chan){
-    this.channels[chan.name] = chan;
+  // information about your windows
+  this.windows = {};
+  this.addWindow = function(win){
+    this.windows[win.name] = win;
   };
 
   // information about users
@@ -29,26 +29,44 @@ function IRCSession(){
 
   // throw away previous state
   this.reset = function(){
-    this.channels = {};
+    this.windows = {};
     this.users = {};
   };
 }
 
-IRCSession.prototype.getChannelByName = function(name){
-  var chan = this.channels[Window.cleanName(name)];
-  if (chan){
-    return chan;
-  } else {
-    //console.error("missing channel name", name, this.channels);
-    return false;
+IRCSession.prototype.getWindowByName = function(name){
+  var win = this.windows[Window.cleanName(name)];
+  if (win){
+    return win;
   }
+  return false;
 };
+
+IRCSession.prototype.getChannelByName = function(name){
+  var win = this.windows[Window.cleanName(name)];
+  if (win && win.type == "channel"){
+    return win;
+  }
+  return false;
+};
+
+IRCSession.prototype.getAllWindows = function(){
+  // chrome doesn't have for each ... in :(
+  var x, list = [];
+  for (x in this.windows) {
+    if (this.windows.hasOwnProperty(x)){
+      list.push(this.windows[x]);
+    }
+  }
+  return list;
+};
+
 IRCSession.prototype.getAllChannels = function(){
   // chrome doesn't have for each ... in :(
   var x, list = [];
-  for (x in this.channels) {
-    if (this.channels.hasOwnProperty(x)){
-      list.push(this.channels[x]);
+  for (x in this.windows) {
+    if (this.windows.hasOwnProperty(x) && this.windows[x].type == 'channel'){
+      list.push(this.windows[x]);
     }
   }
   return list;

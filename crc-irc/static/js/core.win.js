@@ -3,7 +3,7 @@
 function Window(name){
   name = name || 'Status';
   var self = this;
-  this.channel = name;
+  this.raw_name = name;
   this.name = Window.cleanName(name);
   this.unread = 0;
   if (document.getElementById(this.name)){
@@ -29,16 +29,18 @@ function Window(name){
   this.$input = this.$elem.find('input:first');
   this.nicklist = [];
   if (Window.isChannel(name)){
+    this.type = 'channel';
     this.$input.keyup(function(e){
       if (e.which == 13){
         self.echo({type: 'privmsg', sender: ENV.me || 'me', message: this.value});  // fake privmsg
-        commands.privmsg(self.channel, this.value);
+        commands.privmsg(self.raw_name, this.value);
         this.value = '';
       }
     });
     this.$nicklist = this.$elem.find('aside > ul');
     this.$input.keydown(function(e){ self.autoComplete(e); });
   } else {
+    this.type = 'status';
     this.$elem.children('aside').remove();
     this.$input.keyup(function(e){
       if (e.which == 13){
@@ -49,7 +51,7 @@ function Window(name){
     });
   }
 
-  ENV.addChannel(this);
+  ENV.addWindow(this);
   $(CANVAS).trigger('create', this);
 }
 
@@ -197,7 +199,7 @@ Window.isChannel = function(s){
 
 // @return the string representation of the channel
 Window.prototype.toString = function(){
-  return this.channel;
+  return this.raw_name;
 };
 
 // @return a serializable version of the channel

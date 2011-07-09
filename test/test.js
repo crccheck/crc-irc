@@ -108,7 +108,7 @@ test("JOIN", function(){
   var line = ":" + address + " JOIN :" + channel_name;
   parse_chunk(line);
   var chan = ENV.getChannelByName(channel_name);
-  equal(chan.channel, channel_name, line);
+  equal(chan.raw_name, channel_name, line);
   ok(chan.hasNick(test_nick));
   var user = new User(address);
   deepEqual(user.getChannels(), [chan]);
@@ -200,7 +200,7 @@ test("getAllChannels", function(){
   channelsToAdd.forEach(function(channel_name){
     new Window(channel_name);
   });
-  var channelsAdded = ENV.getAllChannels().map(function(x) { return x.channel; });
+  var channelsAdded = ENV.getAllChannels().map(function(x) { return x.raw_name; });
   deepEqual(channelsAdded, channelsToAdd);
 });
 
