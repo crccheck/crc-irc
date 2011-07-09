@@ -60,7 +60,7 @@ function Window(name){
 
 // message(li)  li is a jquery list item: $(LI)
 // manages timestamps, advances scroll bar, TODO manage scrollback
-Window.prototype.message = function(li){
+Window.prototype._message = function(li){
   var now = new Date();
   li.prepend('<time datetime="' + now.strftime('%Y-%m-%dT%H:%M:%S%z') + '">' + now.strftime('%H:%M:%S') + '</time>');
   li.appendTo(this.$content);
@@ -94,7 +94,7 @@ Window.prototype.echo = function(data){
     this.setUnread();
   }
   $(CANVAS).trigger(data.type, [$(line), data, this]);  //trigger events before attaching to DOM
-  this.message(line);
+  this._message(line);
 };
 
 // setUnread([number])

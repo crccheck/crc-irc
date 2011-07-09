@@ -63,7 +63,71 @@ test("serialize then deserialize", function(){
 });
 
 
-module("core.win.js");
+(function(){
+  var win;
+  module("core.win.js api", {
+    setup: function(){ win = new Window('#test'); },
+    teardown: function(){ }});
+  test("scrollDown", function(){
+    win.scrollDown();
+    // test incomplete, but enh
+  });
+  test("echo", function(){
+    win.echo({sender: new User('nick!moo@blah.blah'),
+              message: 'Pew Pew Pew',
+              type: 'privmsg'});
+    var result = win.get_message(0);
+    equal(result.message, 'Pew Pew Pew');
+  });
+  test("setUnread", function(){
+    equal(win.unread, 0);
+    win.setUnread();
+    equal(win.unread, 1);
+    win.setUnread(0);
+    equal(win.unread, 0);
+    win.setUnread(10);
+    equal(win.unread, 10);
+  });
+  test("setTopic", function(){
+    win.setTopic("");
+    equal(win.topic, "");
+    win.setTopic("a");
+    equal(win.topic, "a");
+  });
+  test("hasNick", function(){
+    ok(!win.hasNick("boom"));
+    win.addNick("boom");
+    ok(win.hasNick("boom"));
+    ok(!win.hasNick("moob"));
+  });
+  test("addNick", function(){
+    win.addNick("boom");
+    ok(win.hasNick("boom"));
+  });
+  test("delNick", function(){
+    win.addNick("boom");
+    ok(win.hasNick("boom"));
+    win.delNick("boom");
+    ok(!win.hasNick("boom"));
+  });
+  test("addNick", function(){
+    win.addNicks(["boom", "moob"]);
+    ok(win.hasNick("boom"));
+    equal(win.nicklist.length, 2);
+  });
+  test("focus", function(){
+    win.focus();
+    ok(win.$elem.hasClass('active'));
+  });
+  test("blur", function(){
+    win.focus();
+    ok(win.$elem.hasClass('active'));
+    win.blur();
+    ok(!win.$elem.hasClass('active'));
+  });
+})();
+
+module("core.win.js helpers");
 test("cleanName", function(){
   equal(Window.cleanName('status'), 'status');
   equal(Window.cleanName('#status'), '#status');
@@ -74,6 +138,11 @@ test("stripPrefix", function(){
   equal(Window.stripPrefix('status'), 'status');
   equal(Window.stripPrefix('#status'), 'status');
   equal(Window.stripPrefix('#sTaTuS'), 'sTaTuS');
+});
+test("isChannel", function(){
+  ok(Window.isChannel('#'));
+  ok(Window.isChannel('#channel'));
+  ok(!Window.isChannel('channel'));
 });
 
 module("parse line");
