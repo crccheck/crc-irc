@@ -5,6 +5,8 @@
 
   var state = deserialize(MODULE_KEY);
 
+  var in_drag = false;  // prevent click handler from firing as a result of a drag/drop
+
   function saveState(){
     serialize(MODULE_KEY, state);
   }
@@ -15,6 +17,12 @@
 
   $base.sortable({
     containment: 'parent',
+    start: function(e, ui){
+      in_drag = true;
+    },
+    stop: function(e, ui){
+      setTimeout(function(){ in_drag = false; }, 1);
+    },
     update: function(e, ui){
       var button = ui.item;
       var chan = button.data('channel');
@@ -40,11 +48,15 @@
       button.removeClass('closed');
     };
     button.click(function(e){
+      if (in_drag) { return; }
       if (chan.$elem.is(':hidden')) {
         chan._channelbar.show();
         state[chan.raw_name].visible = true;
-        saveState();
+      } else {
+        chan._channelbar.hide();
+        state[chan.raw_name].visible = false;
       }
+      saveState();
       chan.focus();
     });
     $base.append(button).sortable("refresh");
