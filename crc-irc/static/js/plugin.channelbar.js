@@ -45,6 +45,7 @@
     };
     chan._channelbar.show = function(){
       chan.$elem.show();
+      chan.scrollDown();
       button.removeClass('closed');
     };
     button.click(function(e){
@@ -57,7 +58,6 @@
         state[chan.raw_name].visible = false;
       }
       saveState();
-      chan.focus();
     });
     $base.append(button).sortable("refresh");
   }
