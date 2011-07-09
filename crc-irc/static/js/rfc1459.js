@@ -38,7 +38,12 @@ var RFC1459 = {
     var sender = new User(this.source);
     var chanName = this.target;
     var chan = ENV.getChannelByName(chanName) || ENV.statusWindow;
-    chan.echo({type: this.type, sender: sender, message: this.args});
+    var test = this.args.match(/^\u0001ACTION (.*)\u0001$/);
+    if (test) {
+      chan.echo({type: 'action', sender: sender, message: " " + test[1]});
+    } else {
+      chan.echo({type: this.type, sender: sender, message: this.args});
+    }
   },
   "TOPIC": function(){
     var sender = new User(this.source);

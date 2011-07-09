@@ -232,6 +232,13 @@ test("PRIVMSG channel", function(){
   parse_chunk(line);
   deepEqual(ENV.getChannelByName(channel_name).get_message(0), {nick: user.nick, message: message}, line);
 });
+test("PRIVMSG action channel", function(){
+  var chan = new Window(channel_name);
+  var user = new User(address);
+  var line = ":" + address + " PRIVMSG " + channel_name + " :\u0001ACTION " + message + "\u0001";
+  parse_chunk(line);
+  deepEqual(ENV.getChannelByName(channel_name).get_message(0), {nick: user.nick, message: " " + message}, line);
+});
 test("TOPIC, set topic", function(){
   var chan = new Window(channel_name);
   var topic = "Is your cat dressing too sexy?";

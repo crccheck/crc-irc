@@ -117,4 +117,5 @@ time:after { content: "]"; }
     .privmsg > .nick:after { content: ">"; }
 .quit { color: #0AA;  font-size: 0.9em; }
 .nickchange { color: #BA4; font-size: 0.9em; }
-
+.action { color: deepPink; }
+.action > .message { margin-left: 0; }
