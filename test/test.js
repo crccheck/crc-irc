@@ -63,11 +63,17 @@ test("serialize then deserialize", function(){
 });
 
 
-module("core.chan.js");
+module("core.win.js");
 test("cleanName", function(){
   equal(Window.cleanName('status'), 'status');
   equal(Window.cleanName('#status'), '#status');
   equal(Window.cleanName('#sTaTuS'), '#status');
+});
+
+test("stripPrefix", function(){
+  equal(Window.stripPrefix('status'), 'status');
+  equal(Window.stripPrefix('#status'), 'status');
+  equal(Window.stripPrefix('#sTaTuS'), 'sTaTuS');
 });
 
 module("parse line");

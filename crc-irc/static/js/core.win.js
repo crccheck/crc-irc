@@ -30,6 +30,7 @@ function Window(name){
   this.nicklist = [];
   if (Window.isChannel(name)){
     this.type = 'channel';
+    this.$elem.attr('chan', Window.stripPrefix(this.name));
     this.$input.keyup(function(e){
       if (e.which == 13){
         self.echo({type: 'privmsg', sender: ENV.me || 'me', message: this.value});  // fake privmsg
@@ -187,6 +188,12 @@ Window.prototype.blur = function(e){
 // @return a standardized version of the channel name
 Window.cleanName = function(s){
   return s.toLowerCase();
+};
+
+// cleanName(String)
+// @return a standardized version of the channel name
+Window.stripPrefix = function(s){
+  return s.replace(/^[#]/, '');
 };
 
 // isChannel(String)
