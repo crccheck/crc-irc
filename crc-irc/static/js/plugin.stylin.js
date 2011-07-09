@@ -39,7 +39,9 @@
       resize: resize,
       buttons: [
         { text: "Apply",
-          click: save }
+          click: save },
+        { text: "Save",
+          click: function(){ save(); $(this).dialog("close"); } }
       ]
     });
 

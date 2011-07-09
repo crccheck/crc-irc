@@ -7,5 +7,13 @@
     background: transparent;
     border: 0;
     display: block;
+    font-size: 12px;
     outline: 0;
+}
+.ui-dialog .ui-dialog-buttonpane {
+    margin: 0;
+    padding: 0 1em 0 0;
+}
+.ui-button-text-only .ui-button-text {
+    padding: 0 1em;
 }
