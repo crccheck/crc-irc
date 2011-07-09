@@ -5,7 +5,7 @@ var RFC1459 = {
   "JOIN": function(){
     var chan = ENV.getChannelByName(this.args);
     if (!chan) {
-      chan = new Channel(this.args);
+      chan = new Window(this.args);
     }
     var sender = new User(this.source);
     chan.addNick(sender.nick);

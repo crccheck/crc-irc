@@ -105,5 +105,5 @@ function send(line){
 
 
 $(document).ready(function(){
-  ENV.statusWindow = new Channel();  // make status window, delay to make sure the plugin is loaded
+  ENV.statusWindow = new Window();  // make status window, delay to make sure the plugin is loaded
 });

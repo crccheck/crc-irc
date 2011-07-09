@@ -1,10 +1,10 @@
-// Channel module
+// Window module
 
-function Channel(name){
+function Window(name){
   name = name || 'Status';
   var self = this;
   this.channel = name;
-  this.name = Channel.cleanName(name);
+  this.name = Window.cleanName(name);
   this.unread = 0;
   if (document.getElementById(this.name)){
     return;
@@ -28,7 +28,7 @@ function Channel(name){
   this.$content = this.$elem.find('ol');
   this.$input = this.$elem.find('input:first');
   this.nicklist = [];
-  if (Channel.isChannel(name)){
+  if (Window.isChannel(name)){
     this.$input.keyup(function(e){
       if (e.which == 13){
         self.echo({type: 'privmsg', sender: ENV.me || 'me', message: this.value});  // fake privmsg
@@ -57,7 +57,7 @@ function Channel(name){
 
 // message(li)  li is a jquery list item: $(LI)
 // manages timestamps, advances scroll bar, TODO manage scrollback
-Channel.prototype.message = function(li){
+Window.prototype.message = function(li){
   var now = new Date();
   li.prepend('<time datetime="' + now.strftime('%Y-%m-%dT%H:%M:%S%z') + '">' + now.strftime('%H:%M:%S') + '</time>');
   li.appendTo(this.$content);
@@ -68,7 +68,7 @@ Channel.prototype.message = function(li){
   this.scrollDown();
 };
 
-Channel.prototype.scrollDown = function(){
+Window.prototype.scrollDown = function(){
   if (this.$content && this.$content.length) {
     this.$content[0].scrollTop = this.$content[0].scrollHeight;
   } else {
@@ -81,7 +81,7 @@ Channel.prototype.scrollDown = function(){
 //          message: String,
 //          type: String}
 // type is ['privmsg', 'join', 'part']
-Channel.prototype.echo = function(data){
+Window.prototype.echo = function(data){
   data.type = data.type.toLowerCase() || "";
   var line = $('<li class="' + data.type + '" sender="' + data.sender + '"/>').html(
     '<span class="nick">' + data.sender + '</span>' +
@@ -96,7 +96,7 @@ Channel.prototype.echo = function(data){
 
 // setUnread([number])
 // if number is sent, set the number of unread, otherwise increment
-Channel.prototype.setUnread = function(num){
+Window.prototype.setUnread = function(num){
   if (isNaN(num)) {
     ++this.unread;
   } else {
@@ -111,7 +111,7 @@ Channel.prototype.setUnread = function(num){
 };
 
 // retrieve the i-th message in reverse chronological order, 0-indexed
-Channel.prototype.get_message = function(i){
+Window.prototype.get_message = function(i){
   var collection = this.$elem.children('ol').children();
   var n = collection.length;
   if (i <= n){
@@ -122,7 +122,7 @@ Channel.prototype.get_message = function(i){
 };
 
 // setTopic(String)
-Channel.prototype.setTopic = function(s){
+Window.prototype.setTopic = function(s){
   this.topic = s;
   if (linkify) {
     s = s.replace(/</g, '&lt;');
@@ -132,12 +132,12 @@ Channel.prototype.setTopic = function(s){
   }
 };
 
-Channel.prototype.hasNick = function(nick){
+Window.prototype.hasNick = function(nick){
   nick = User.cleanNick(nick);
   return this.nicklist.indexOf(nick) !== -1;
 };
 
-Channel.prototype.addNick = function(nick){
+Window.prototype.addNick = function(nick){
   nick = User.cleanNick(nick);
   if (!this.hasNick(nick)){
     this.nicklist.push(nick);
@@ -147,7 +147,7 @@ Channel.prototype.addNick = function(nick){
   return false;
 };
 
-Channel.prototype.delNick = function(nick){
+Window.prototype.delNick = function(nick){
   nick = User.cleanNick(nick);
   var idx = this.nicklist.indexOf(nick);
   if (idx !== -1){
@@ -158,14 +158,14 @@ Channel.prototype.delNick = function(nick){
   return false;
 };
 
-Channel.prototype.addNicks = function(nickArray){
+Window.prototype.addNicks = function(nickArray){
   var self = this;
   nickArray.forEach(function(nick){
     self.addNick(nick);
   });
 };
 
-Channel.prototype.focus = function(e){
+Window.prototype.focus = function(e){
   if (this.$elem.hasClass('active')){ return; }
   this.setUnread(0);
   this.$elem.addClass('active');
@@ -176,36 +176,36 @@ Channel.prototype.focus = function(e){
   }
 };
 
-Channel.prototype.blur = function(e){
+Window.prototype.blur = function(e){
   this.$elem.removeClass('active');
 };
 // -------------------- HELPERS --------------------
 
 // cleanName(String)
 // @return a standardized version of the channel name
-Channel.cleanName = function(s){
+Window.cleanName = function(s){
   return s.toLowerCase();
 };
 
 // isChannel(String)
 // @return a boolean if a string is channel. If it isn't we assume it's a nick.
-Channel.isChannel = function(s){
+Window.isChannel = function(s){
   // return boolean if the string is a channel
   // TODO check ENV.chanmodes
   return s[0] == '#';
 };
 
 // @return the string representation of the channel
-Channel.prototype.toString = function(){
+Window.prototype.toString = function(){
   return this.channel;
 };
 
 // @return a serializable version of the channel
-Channel.prototype.toObject = function(){
+Window.prototype.toObject = function(){
 
 };
 
-Channel.prototype.autoComplete = function(e){
+Window.prototype.autoComplete = function(e){
   // advance the cursor, optionally insert a space after the word under the cursor
   // if inserting a space, also add a colon if this is the first word
   function advance(insertSpace){

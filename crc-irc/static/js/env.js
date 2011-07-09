@@ -35,7 +35,7 @@ function IRCSession(){
 }
 
 IRCSession.prototype.getChannelByName = function(name){
-  var chan = this.channels[Channel.cleanName(name)];
+  var chan = this.channels[Window.cleanName(name)];
   if (chan){
     return chan;
   } else {

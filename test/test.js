@@ -65,9 +65,9 @@ test("serialize then deserialize", function(){
 
 module("core.chan.js");
 test("cleanName", function(){
-  equal(Channel.cleanName('status'), 'status');
-  equal(Channel.cleanName('#status'), '#status');
-  equal(Channel.cleanName('#sTaTuS'), '#status');
+  equal(Window.cleanName('status'), 'status');
+  equal(Window.cleanName('#status'), '#status');
+  equal(Window.cleanName('#sTaTuS'), '#status');
 });
 
 module("parse line");
@@ -115,7 +115,7 @@ test("JOIN", function(){
 });
 test("NICK", function(){
   ENV.reset();
-  var chan = new Channel(channel_name);
+  var chan = new Window(channel_name);
   var user = new User(address);
   // MOCK join
   chan.addNick(test_nick);
@@ -125,7 +125,7 @@ test("NICK", function(){
   ok(chan.hasNick('santa'));
 });
 test("PART", function(){
-  var chan = new Channel(channel_name);
+  var chan = new Window(channel_name);
   var user = new User(address);
   var line = ":" + address + " PART " + channel_name + " :" + message;
   // MOCK join
@@ -144,21 +144,21 @@ test("PART", function(){
   ok(!chan.hasNick(test_nick), line);
 });
 test("PRIVMSG user gets sent to status", function(){
-  var chan = new Channel('#foobar');
+  var chan = new Window('#foobar');
   var user = new User(address);
   var line = ":" + address + " PRIVMSG foobar :" + message;
   parse_chunk(line);
   deepEqual(ENV.statusWindow.get_message(0), {nick: user.nick, message: message}, line);
 });
 test("PRIVMSG channel", function(){
-  var chan = new Channel(channel_name);
+  var chan = new Window(channel_name);
   var user = new User(address);
   var line = ":" + address + " PRIVMSG " + channel_name + " :" + message;
   parse_chunk(line);
   deepEqual(ENV.getChannelByName(channel_name).get_message(0), {nick: user.nick, message: message}, line);
 });
 test("TOPIC, set topic", function(){
-  var chan = new Channel(channel_name);
+  var chan = new Window(channel_name);
   var topic = "Is your cat dressing too sexy?";
   var line = ":" + address + " TOPIC " + channel_name + " :" + topic;
   parse_chunk(line);
@@ -167,7 +167,7 @@ test("TOPIC, set topic", function(){
 test("QUIT", function(){
   var line = ":" + address + " QUIT :Ping timeout: 240 seconds";
   parse_chunk(line);
-  var chan = new Channel(channel_name);
+  var chan = new Window(channel_name);
   chan.addNick(test_nick);
   ok(chan.hasNick(test_nick));
   equal(chan.nicklist.length, 1);
@@ -184,7 +184,7 @@ test("332, get topic", function(){
   equal(ENV.getChannelByName(channel_name).topic, topic, line);
 });
 test("353, NAMES list", function(){
-  var chan = new Channel(channel_name);
+  var chan = new Window(channel_name);
   var line = ":kornbluth.freenode.net 353 kurol = " + channel_name + " :@SomeOp +SomeVoice SomeNick DLange DanGer Daviey Defektro DigitalKiwi Disp_ EnTeQuAk Epcylon Espen-_- ExtraSpice Fandekasp Frantic FunkyBob Gorroth GrahamDumpleton Grega Grepsd|BNC Henoxek IAmRoot Irex JDigital JanC_ JoeJulian Jygga KBme Katharsis Leonidas LiamM Llew Luyt Marchael MatToufoutu McMAGIC--Copy Modius MrITR NoNaMeNo Nume Oli`` PKKid-Work Pathin_ Perlboy Pici PiotrSikora Proditor Prometheus Quarryman R00sterJuice";
   parse_chunk(line);
   ok(ENV.getChannelByName(channel_name).hasNick('SomeOp'));
@@ -198,7 +198,7 @@ test("getAllChannels", function(){
   ENV.reset();
   var channelsToAdd = ['#a', '#b', '#c'];
   channelsToAdd.forEach(function(channel_name){
-    new Channel(channel_name);
+    new Window(channel_name);
   });
   var channelsAdded = ENV.getAllChannels().map(function(x) { return x.channel; });
   deepEqual(channelsAdded, channelsToAdd);
@@ -207,7 +207,7 @@ test("getAllChannels", function(){
 module("jquery");
 test("can select nick's li", function(){
   ENV.reset();
-  var chan = new Channel('#abc');
+  var chan = new Window('#abc');
   chan.addNick('foobar');
   ok(chan.$nicklist.children(':[data-nick=foobar]').length);
   chan.addNick('sec^nd');
