@@ -29,12 +29,12 @@
     font-size: 0.8em;
 }
 
-.channel nav {
+.window nav {
     display: none;
     position: absolute;
     top: 0;
     right: 0;
 }
-.channel:hover nav {
+.window:hover nav {
     display: block;
 }

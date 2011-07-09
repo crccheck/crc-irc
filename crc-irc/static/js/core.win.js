@@ -9,8 +9,8 @@ function Window(name){
   if (document.getElementById(this.name)){
     return;
   }
-  this.$elem = $('<section id="' + this.name +'" class="channel shadow">' +
-    '<header><h1 class="channel-name">' + name + '</h1><h2 class="topic"></h2>' +
+  this.$elem = $('<section id="' + this.name +'" class="window shadow">' +
+    '<header><h1 class="window-name">' + name + '</h1><h2 class="topic"></h2>' +
     '<h3></h3><nav></nav></header>' +
     '<aside><ul></ul></aside><ol class="content"></ol>' +
     '<footer><input type="text" placeholder="Message"></footer>').appendTo(CANVAS)
@@ -185,13 +185,13 @@ Window.prototype.blur = function(e){
 // -------------------- HELPERS --------------------
 
 // cleanName(String)
-// @return a standardized version of the channel name
+// @return a standardized version of the window name
 Window.cleanName = function(s){
   return s.toLowerCase();
 };
 
 // cleanName(String)
-// @return a standardized version of the channel name
+// @return a standardized version of the window name
 Window.stripPrefix = function(s){
   return s.replace(/^[#]/, '');
 };
@@ -204,12 +204,12 @@ Window.isChannel = function(s){
   return s[0] == '#';
 };
 
-// @return the string representation of the channel
+// @return the string representation of the window
 Window.prototype.toString = function(){
   return this.raw_name;
 };
 
-// @return a serializable version of the channel
+// @return a serializable version of the window
 Window.prototype.toObject = function(){
 
 };
@@ -273,11 +273,11 @@ Window.prototype.autoComplete = function(e){
 };
 
 $(function(){
-  // we can't get a blur event on the channel $elem, so fake it by detecting clicks on the CANVAS
+  // we can't get a blur event on the window $elem, so fake it by detecting clicks on the CANVAS
   $(CANVAS).click(function(e){
     var active;
-    if (e.target == CANVAS && (active = $('section.channel.active')).length){
-      var chan = ENV.getChannelByName(active[0].id);
+    if (e.target == CANVAS && (active = $('section.active')).length){
+      var chan = ENV.getWindowByName(active[0].id);
       if (chan) { chan.$elem.trigger('blur'); }
     }
   });
