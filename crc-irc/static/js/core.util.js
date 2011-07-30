@@ -18,7 +18,7 @@ String.prototype.psplit = function(sep, limit){
 
 // temporary console.log-like function
 function dump(){
-  document.getElementById('status-content').innerHTML += this.line + "\n";
+  ENV.statusWindow.echo({type: 'servernotice', sender:'', message: this.args});
 }
 
 function ignore(){

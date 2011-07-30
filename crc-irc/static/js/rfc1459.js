@@ -89,8 +89,7 @@ var RFC1459 = {
   "372": implementlater,  // welcome
   "375": implementlater,  // MOTD opening
   "376": implementlater,  // End of /MOTD command
-  "421": function(){
-    ENV.statusWindow.echo({type: 'servernotice', sender: "", message: this.args});
-  },
+  "403": dump,
+  "421": dump,
   "462": dump
 };
