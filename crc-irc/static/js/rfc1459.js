@@ -62,8 +62,10 @@ var RFC1459 = {
   "001": function(){
     $('#connect-form')[0].reset();
     ENV.me_nick = this.target;
-    notimplemented.call(this);
+    dump.call(this);
   },
+  "002": dump,
+  "003": dump,
   "250": implementlater,  // Highest connection count: ...
   "251": implementlater,  // There are ... users and ... invisible on ..servers
   "252": implementlater,  // ... : IRC Operators online
@@ -76,7 +78,9 @@ var RFC1459 = {
   "332": function(){
     var chanName = this.target.split(' ')[1];
     var topic = this.args;
-    ENV.getChannelByName(chanName).setTopic(topic);
+    var chan = ENV.getChannelByName(chanName);
+    if (chan) chan.setTopic(topic);
+    else dump.call(this);
   },
   "333": implementlater,  // how old the topic is
   "353": function(){
@@ -91,5 +95,6 @@ var RFC1459 = {
   "376": implementlater,  // End of /MOTD command
   "403": dump,
   "421": dump,
+  "442": dump,  // You're not on that channel
   "462": dump
 };

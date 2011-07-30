@@ -50,6 +50,14 @@ IRCSession.prototype.getChannelByName = function(name){
   return false;
 };
 
+IRCSession.prototype.getChannelByNameOrStatus = function(name){
+  var win = this.windows[Window.cleanName(name)];
+  if (win && win.type == "channel"){
+    return win;
+  }
+  return this.statusWindow;
+};
+
 IRCSession.prototype.getAllWindows = function(){
   // chrome doesn't have for each ... in :(
   var x, list = [];
