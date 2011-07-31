@@ -84,11 +84,16 @@ Window.prototype.scrollDown = function(){
 };
 
 // echo(data)
-// data -> {sender: User,
-//          message: String,
-//          type: String}
-// type is ['privmsg', 'join', 'part']
+// data -> {sender: <User>,
+//          message: <String>,
+//          type: <String>}
+//   type is ['privmsg', 'join', 'part']
+// data -> <String>
+//   for simple echoing
 Window.prototype.echo = function(data){
+  if ($.type(data) == "string") {
+    data = {sender: '', message: data, type: ''};
+  }
   data.type = data.type.toLowerCase() || "";
   var line = $('<li class="' + data.type + '" sender="' + data.sender + '"/>').html(
     '<span class="nick">' + data.sender + '</span>' +
