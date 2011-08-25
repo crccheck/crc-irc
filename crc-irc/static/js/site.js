@@ -18,5 +18,5 @@ loadPlugin('notify');
 loadPlugin('connections', true);
 loadPlugin('channelbar', true);
 loadPlugin('hilight', true);
-loadPlugin('linkify');
+loadPlugin('linkify', true);
 loadPlugin('stylin', true);
