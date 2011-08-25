@@ -85,6 +85,7 @@ body {
         background: #EEE;
         border: 1px solid #ccc;
         height: 10em;
+        overflow-x: hidden;
         overflow-y: auto;
     }
     .window input[type=text] { width: 696px; }

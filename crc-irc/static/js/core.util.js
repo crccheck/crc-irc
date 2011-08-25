@@ -129,3 +129,12 @@ function loadPlugin(name, css){
     }
   });
 }
+
+// inject wbr into long words http://ejohn.org/blog/injecting-word-breaks-with-javascript/
+function wbr(str, num) {
+  num = num || 15;
+  return str.replace(RegExp("(\\w{" + num + "})(\\w)", "g"), function(all,text,char){
+    return text + "<wbr>" + char;
+  });
+}
+
