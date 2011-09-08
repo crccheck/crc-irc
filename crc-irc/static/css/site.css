@@ -120,3 +120,23 @@ time:after { content: "]"; }
 .nickchange { color: #BA4; font-size: 0.9em; }
 .action { color: deepPink; }
 .action > .message { margin-left: 0; }
+
+
+@media only screen and (max-width: 480px) {
+  /* Style adjustments for viewports 480px and over go here */
+  #connect {
+    white-space: normal;
+  }
+  aside {
+    display: none;
+  }
+  .window {
+    width: auto;
+  }
+  .window input[type=text] {
+    width: 100%;
+  }
+  .shadow {
+    box-shadow: 0 0 0 transparent;
+  }
+}
