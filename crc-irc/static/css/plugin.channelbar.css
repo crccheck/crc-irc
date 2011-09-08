@@ -38,3 +38,16 @@
 .window:hover nav {
     display: block;
 }
+
+@media only screen and (max-width: 480px) {
+    .window.hidden {
+        display: block;
+        padding-bottom: 0;
+        visibility: visible;
+    }
+    .window.hidden > * { display: none; }
+    .window.hidden > header { display: block; }
+    .window.hidden > header .toggleVisibility { content: "show"; display: none; }
+    .ui-channelbar  { display: none; }
+
+}

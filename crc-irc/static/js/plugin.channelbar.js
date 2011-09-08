@@ -40,17 +40,18 @@
       .data('channel', chan);
     chan._channelbar.button = button;
     chan._channelbar.hide = function(){
-      chan.$elem.hide();
+      chan.$elem.addClass('hidden');
+      chan.$elem.removeClass('active');
       button.addClass('closed');
     };
     chan._channelbar.show = function(){
-      chan.$elem.show();
+      chan.$elem.removeClass('hidden');
       chan.scrollDown();
       button.removeClass('closed');
     };
     button.click(function(e){
       if (in_drag) { return; }
-      if (chan.$elem.is(':hidden')) {
+      if (chan.$elem.hasClass('hidden')) {
         chan._channelbar.show();
         state[chan.raw_name].visible = true;
       } else {
@@ -59,11 +60,20 @@
       }
       saveState();
     });
+    // show channel in mobile mode
+    chan.$elem.click(function(){
+      if (chan.$elem.hasClass('hidden')){
+        chan._channelbar.show();
+        state[chan.raw_name].visible = true;
+      }
+      saveState();
+    });
     $base.append(button).sortable("refresh");
   }
 
   function addControlsToChan(chan){
-    $('<button>hide</button>').click(function(){
+    $('<button class="toggleVisibility">hide</button>').click(function(e){
+      e.stopPropagation();
       chan._channelbar.hide();
       state[chan.raw_name].visible = false;
       saveState();
