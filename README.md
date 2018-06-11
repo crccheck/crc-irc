@@ -57,5 +57,5 @@ Needs
 
 * Documenting: I've ready a few paradigms for documenting code, JavaScript in particular, but it's not ingrained in me. I want to find a convention that's easy to read and if it can be used to auto-generate docs that's a plus.
 * Packaging: I don't know how to package this thing. I haven't even gotten around to looking around at other projects.
-* Testing: JavaScript testing is still evolving. I've seen [Jasmine](http://pivotal.github.com/jasmine/) and [QUnit](http://docs.jquery.com/Qunit). What else is out there? I'm trying QUnit for now.
+* Testing: JavaScript testing is still evolving. I've seen [Jasmine](https://jasmine.github.io/) and [QUnit](http://docs.jquery.com/Qunit). What else is out there? I'm trying QUnit for now.
 * Building: Some build process would be nice. Concatenating all the .js modules.
